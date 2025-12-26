@@ -5,7 +5,7 @@
     <title>Fandomism</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Minimal SEO (quiet, intentional) -->
+    <!-- Minimal SEO -->
     <meta
       name="description"
       content="Fandomism explores fandom as culture, identity, and community."
@@ -23,18 +23,26 @@
         text-align: center;
       }
 
-      /* Logo */
+      /* LOGO — mobile safe, desktop bold */
       img {
-        width: 85%;
-        max-width: 360px; /* mobile + tablet */
+        width: 90%;
+        max-width: 360px; /* mobile hard stop */
         height: auto;
         margin-bottom: 28px;
       }
 
-      /* Desktop enhancement */
-      @media (min-width: 768px) {
+      /* Tablet */
+      @media (min-width: 600px) {
         img {
-          max-width: 460px; /* bold on desktop */
+          max-width: 520px;
+        }
+      }
+
+      /* Desktop */
+      @media (min-width: 1024px) {
+        img {
+          width: 60vw;       /* scale with screen */
+          max-width: 720px;  /* confident cap */
         }
       }
 
@@ -49,7 +57,7 @@
         margin-bottom: 10px;
       }
 
-      /* Action / interface */
+      /* Action */
       a {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 12px;
@@ -65,7 +73,7 @@
         opacity: 0.6;
       }
 
-      /* Invisible SEO text (crawlable, not visible) */
+      /* Invisible SEO */
       .seo {
         position: absolute;
         left: -9999px;
@@ -85,10 +93,9 @@
       Contact
     </a>
 
-    <!-- Invisible semantic context for search engines -->
     <div class="seo">
       Fandomism is a cultural research and creative platform exploring fandom,
-      community, identity, media, and modern participation.
+      identity, community, media, and modern participation.
     </div>
   </body>
 </html>
