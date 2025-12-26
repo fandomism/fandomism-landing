@@ -23,26 +23,26 @@
         text-align: center;
       }
 
-      /* LOGO — mobile safe, desktop bold */
+      /* LOGO — truly dominant on desktop, safe on mobile */
       img {
-        width: 90%;
-        max-width: 360px; /* mobile hard stop */
+        width: 92%;
+        max-width: 420px; /* mobile hard stop */
         height: auto;
-        margin-bottom: 28px;
+        margin-bottom: 32px;
       }
 
       /* Tablet */
       @media (min-width: 600px) {
         img {
-          max-width: 520px;
+          max-width: 640px;
         }
       }
 
-      /* Desktop */
+      /* Desktop / large screens */
       @media (min-width: 1024px) {
         img {
-          width: 60vw;       /* scale with screen */
-          max-width: 720px;  /* confident cap */
+          width: 70vw;
+          max-width: 1000px; /* hero-scale cap */
         }
       }
 
@@ -53,19 +53,20 @@
         letter-spacing: 0.35em;
         text-transform: uppercase;
         color: #111;
-        opacity: 0.65;
-        margin-bottom: 10px;
+        opacity: 0.6;
+        margin-bottom: 12px;
       }
 
-      /* Action */
+      /* CONTACT — bold */
       a {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 12px;
+        font-weight: 700;
         letter-spacing: 0.18em;
         text-transform: uppercase;
         color: #111;
         text-decoration: none;
-        border-bottom: 1px solid #111;
+        border-bottom: 2px solid #111;
         padding-bottom: 4px;
       }
 
@@ -73,7 +74,7 @@
         opacity: 0.6;
       }
 
-      /* Invisible SEO */
+      /* Invisible SEO (crawlable, not visible) */
       .seo {
         position: absolute;
         left: -9999px;
