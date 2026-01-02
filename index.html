@@ -28,8 +28,6 @@ body {
   background: var(--bg);
   color: var(--text);
   text-align: center;
-
-  /* key change */
   display: flex;
   flex-direction: column;
 }
@@ -37,13 +35,14 @@ body {
 /* Main content takes remaining space and centers */
 .content {
   position: relative; /* keeps hidden SEO scoped */
-  flex: 1;            /* key change */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  padding: 12vh 16px 48px; /* bottom padding is just breathing room now */
+  /* adaptive padding = prevents scroll on short screens */
+  padding: clamp(16px, 6vh, 72px) 16px 24px;
 }
 
 /* LOGO — big on desktop, safe on mobile */
@@ -65,6 +64,12 @@ img {
     width: 70vw;
     max-width: 1000px;
   }
+}
+
+/* Short screens (landscape phones, small laptop windows) */
+@media (max-height: 720px) {
+  img { margin-bottom: 20px; }
+  .nod { margin-bottom: 8px; }
 }
 
 /* Subtle belonging nod */
@@ -106,8 +111,8 @@ a:hover { opacity: 0.6; }
 
 /* Footer (quiet legal line) — NOT fixed, so it never overlaps */
 .site-footer {
-  margin-top: auto;       /* key change */
-  padding: 16px 0 18px;   /* spacing off the bottom */
+  margin-top: auto;
+  padding: 16px 0 18px;
   font-size: 11px;
   letter-spacing: 0.04em;
   color: rgba(0, 0, 0, 0.3);
