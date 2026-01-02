@@ -15,110 +15,108 @@
     />
 
 <style>
-  :root {
-    --bg: #EDE6D8;
-    --text: #111;
+:root {
+  --bg: #EDE6D8;
+  --text: #111;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main centered content */
+.content {
+  position: relative; /* keeps hidden SEO scoped to the page */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 6vh, 72px) 16px 24px;
+}
+
+/* LOGO — preserve aspect ratio, never force height */
+.content img {
+  display: block;
+  width: min(92vw, 1000px);
+  max-width: 640px;
+  height: auto;              /* critical: prevents stretching */
+  margin: 0 0 24px 0;
+
+  /* helps prevent “weird warping” look on some browsers */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .content img {
+    width: 70vw;
+    max-width: 1000px;
   }
+}
 
-  * { box-sizing: border-box; }
+/* Short screens (landscape phones / short windows) */
+@media (max-height: 720px) {
+  .content { padding: 16px 16px 16px; }
+  .content img { margin-bottom: 16px; }
+  .nod { margin-bottom: 8px; }
+  .site-footer { padding: 10px 0 12px; font-size: 10px; }
+}
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-  }
+/* ONE OF US */
+.nod {
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 12px;
+  transition: opacity 0.25s ease;
+}
+.nod:hover { opacity: 0.9; }
 
-  /* Main content takes remaining space and centers */
-  .content {
-    position: relative; /* keeps hidden SEO scoped */
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(16px, 6vh, 72px) 16px 24px;
-  }
+/* CONTACT */
+a {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 2px solid var(--text);
+  padding-bottom: 4px;
+}
+a:hover { opacity: 0.6; }
 
-  /* LOGO — responsive by width AND height */
-  img {
-    width: min(92vw, 1000px);
-    max-width: 640px;        /* normal cap */
-    max-height: 55vh;        /* IMPORTANT: prevents pushing content off-screen */
-    height: auto;
-    margin-bottom: 24px;
-  }
+/* Invisible SEO */
+.seo {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
-  /* Desktop */
-  @media (min-width: 1024px) {
-    img {
-      width: 70vw;
-      max-width: 1000px;
-      max-height: 60vh;
-    }
-  }
-
-  /* Short screens (landscape phones / short laptop windows) */
-  @media (max-height: 720px) {
-    .content { padding: 16px 16px 16px; }
-    img {
-      max-height: 48vh;
-      margin-bottom: 16px;
-    }
-    .nod { margin-bottom: 8px; }
-    .site-footer { padding: 10px 0 12px; font-size: 10px; }
-  }
-
-  /* Subtle belonging nod */
-  .nod {
-    font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
-    font-size: 10px;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-    opacity: 0.6;
-    margin-bottom: 12px;
-    transition: opacity 0.25s ease;
-  }
-
-  .nod:hover { opacity: 0.9; }
-
-  /* CONTACT — bold */
-  a {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 2px solid var(--text);
-    padding-bottom: 4px;
-  }
-
-  a:hover { opacity: 0.6; }
-
-  /* Invisible SEO (crawlable, not visible) */
-  .seo {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  /* Footer (quiet legal line) — NOT fixed, so it never overlaps */
-  .site-footer {
-    margin-top: auto;
-    padding: 16px 0 18px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: rgba(0, 0, 0, 0.3);
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-    pointer-events: none;
-  }
+/* Footer — natural flow, never overlaps */
+.site-footer {
+  margin-top: auto;
+  padding: 16px 0 18px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  pointer-events: none;
+}
 </style>
   </head>
 
