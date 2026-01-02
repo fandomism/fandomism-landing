@@ -38,11 +38,14 @@ body {
   color: var(--text);
   text-align: center;
 
-  /* Use the “small viewport height” so laptop browser UI doesn’t steal space */
+  /* “small viewport height” avoids browser UI stealing space */
   min-height: 100svh;
 
   display: grid;
   grid-template-rows: 1fr auto;
+
+  /* prevents rare overflow weirdness in grid */
+  min-width: 0;
 }
 
 /* Main centered content */
@@ -55,16 +58,23 @@ body {
 
   padding: var(--content-pad-y) var(--content-pad-x);
   gap: var(--gap);
+
+  min-width: 0;
 }
 
-/* LOGO — constrain by BOTH width and height so footer + contact always fit */
+/* LOGO — constrained by BOTH width and height so footer + contact always fit */
 .content img {
   display: block;
-  width: min(92vw, 1000px);
+
+  /* width constraint */
+  inline-size: min(92vw, 1000px);
+  max-inline-size: 1000px;
+
+  /* never stretch */
   height: auto;
 
-  /* Safe max height = viewport height minus footer + padding + a little breathing room */
-  max-height: calc(
+  /* height constraint (the important part) */
+  max-block-size: calc(
     100svh
     - (2 * var(--content-pad-y))
     - (3 * var(--gap))
