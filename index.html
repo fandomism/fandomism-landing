@@ -18,45 +18,60 @@
 :root {
   --bg: #EDE6D8;
   --text: #111;
+
+  /* Footer sizing (used to calculate safe image height) */
+  --footer-pad-y: 14px;
+  --footer-font: 11px;
+  --footer-line: 1.2; /* line-height multiplier */
+
+  /* Spacing inside main content */
+  --content-pad-y: clamp(12px, 4svh, 48px);
+  --content-pad-x: 16px;
+  --gap: 12px;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   text-align: center;
 
-  /* Grid makes “footer always visible” easier than flex */
+  /* Use the “small viewport height” so laptop browser UI doesn’t steal space */
+  min-height: 100svh;
+
   display: grid;
   grid-template-rows: 1fr auto;
 }
 
 /* Main centered content */
 .content {
-  position: relative;              /* keeps hidden SEO scoped */
+  position: relative; /* keeps hidden SEO scoped */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  /* responsive vertical breathing room */
-  padding: clamp(12px, 4vh, 48px) 16px;
-  gap: 12px;                       /* replaces some margin juggling */
+  padding: var(--content-pad-y) var(--content-pad-x);
+  gap: var(--gap);
 }
 
-/* LOGO — constrained by BOTH width and height (prevents “push footer off screen”) */
+/* LOGO — constrain by BOTH width and height so footer + contact always fit */
 .content img {
   display: block;
   width: min(92vw, 1000px);
   height: auto;
 
-  /* THIS is the key: keep it from getting too tall */
-  max-height: min(56vh, 520px);
-
-  margin: 0;                       /* use gap instead */
+  /* Safe max height = viewport height minus footer + padding + a little breathing room */
+  max-height: calc(
+    100svh
+    - (2 * var(--content-pad-y))
+    - (3 * var(--gap))
+    - (var(--footer-pad-y) * 2)
+    - (var(--footer-font) * var(--footer-line))
+    - 24px
+  );
 }
 
 /* ONE OF US */
@@ -67,7 +82,6 @@ body {
   text-transform: uppercase;
   opacity: 0.6;
   transition: opacity 0.25s ease;
-  margin: 0;                       /* use gap instead */
 }
 .nod:hover { opacity: 0.9; }
 
@@ -94,21 +108,20 @@ a:hover { opacity: 0.6; }
   overflow: hidden;
 }
 
-/* Footer — in normal flow, never overlaps, always visible */
+/* Footer — normal flow, always visible */
 .site-footer {
-  padding: 14px 0 16px;
-  font-size: 11px;
+  padding: var(--footer-pad-y) 0 calc(var(--footer-pad-y) + 2px);
+  font-size: var(--footer-font);
+  line-height: var(--footer-line);
   letter-spacing: 0.04em;
   color: rgba(0, 0, 0, 0.3);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   pointer-events: none;
 }
 
-/* Short-height screens: tighten everything further */
+/* Extra-tight heights: squeeze a bit more */
 @media (max-height: 720px) {
-  .content { gap: 8px; padding: 12px 16px; }
-  .content img { max-height: 50vh; }
-  .site-footer { font-size: 10px; padding: 10px 0 12px; }
+  :root { --gap: 8px; --footer-font: 10px; }
 }
 </style>
   </head>
