@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Favicon (PNG) -->
-    <link
-      rel="icon"
-      type="image/png"
-      href="/fandomism-favicon.png"
-      sizes="32x32"
-    />
+    <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
 
     <!-- Minimal SEO -->
     <meta
@@ -23,36 +18,38 @@
       body {
         margin: 0;
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
         background: #EDE6D8;
         text-align: center;
-        padding top: 12vh;
-        padding-bottom: 140px;
       }
 
-      /* LOGO — truly dominant on desktop, safe on mobile */
+      /* Centered content area (separate from fixed footer) */
+      .content {
+        position: relative;               /* keeps hidden SEO scoped */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12vh 16px 120px;         /* top spacing + safe room above footer */
+        box-sizing: border-box;
+      }
+
+      /* LOGO — dominant on desktop, safe on mobile */
       img {
         width: 92%;
-        max-width: 420px; /* mobile hard stop */
+        max-width: 420px;
         height: auto;
         margin-bottom: 32px;
       }
 
-      /* Tablet */
       @media (min-width: 600px) {
-        img {
-          max-width: 640px;
-        }
+        img { max-width: 640px; }
       }
 
-      /* Desktop / large screens */
       @media (min-width: 1024px) {
         img {
           width: 70vw;
-          max-width: 1000px; /* hero-scale cap */
+          max-width: 1000px;
         }
       }
 
@@ -68,10 +65,8 @@
         transition: opacity 0.25s ease;
       }
 
-      .nod:hover {
-        opacity: 0.9;
-      }
-      
+      .nod:hover { opacity: 0.9; }
+
       /* CONTACT — bold */
       a {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -85,9 +80,7 @@
         padding-bottom: 4px;
       }
 
-      a:hover {
-        opacity: 0.6;
-      }
+      a:hover { opacity: 0.6; }
 
       /* Invisible SEO (crawlable, not visible) */
       .seo {
@@ -99,37 +92,33 @@
       }
 
       /* Footer (quiet legal line) */
-.site-footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 16px;
-  text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: rgba(0, 0, 0, 0.3);
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  pointer-events: none;
-}
-
+      .site-footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 16px;
+        text-align: center;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        color: rgba(0, 0, 0, 0.3);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        pointer-events: none;
+      }
     </style>
   </head>
 
   <body>
-    <img src="fandomism-logo.png" alt="Fandomism logo" />
+    <main class="content">
+      <img src="fandomism-logo.png" alt="Fandomism logo" />
+      <div class="nod">One of us</div>
+      <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
 
-    <div class="nod">One of us</div>
-
-    <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-      Contact
-    </a>
-
-    <div class="seo">
-      Fandomism is a cultural research and creative platform exploring fandom,
-      identity, community, media, and modern participation.
-    </div>
+      <div class="seo">
+        Fandomism is a cultural research and creative platform exploring fandom,
+        identity, community, media, and modern participation.
+      </div>
+    </main>
 
     <footer class="site-footer">© 2026 Fandomism LLC. All rights reserved.</footer>
-    
   </body>
 </html>
