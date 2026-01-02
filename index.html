@@ -28,48 +28,35 @@ body {
   background: var(--bg);
   color: var(--text);
   text-align: center;
-  display: flex;
-  flex-direction: column;
+
+  /* Grid makes “footer always visible” easier than flex */
+  display: grid;
+  grid-template-rows: 1fr auto;
 }
 
 /* Main centered content */
 .content {
-  position: relative; /* keeps hidden SEO scoped to the page */
-  flex: 1;
+  position: relative;              /* keeps hidden SEO scoped */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(16px, 6vh, 72px) 16px 24px;
+
+  /* responsive vertical breathing room */
+  padding: clamp(12px, 4vh, 48px) 16px;
+  gap: 12px;                       /* replaces some margin juggling */
 }
 
-/* LOGO — preserve aspect ratio, never force height */
+/* LOGO — constrained by BOTH width and height (prevents “push footer off screen”) */
 .content img {
   display: block;
   width: min(92vw, 1000px);
-  max-width: 640px;
-  height: auto;              /* critical: prevents stretching */
-  margin: 0 0 24px 0;
+  height: auto;
 
-  /* helps prevent “weird warping” look on some browsers */
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
+  /* THIS is the key: keep it from getting too tall */
+  max-height: min(56vh, 520px);
 
-/* Desktop */
-@media (min-width: 1024px) {
-  .content img {
-    width: 70vw;
-    max-width: 1000px;
-  }
-}
-
-/* Short screens (landscape phones / short windows) */
-@media (max-height: 720px) {
-  .content { padding: 16px 16px 16px; }
-  .content img { margin-bottom: 16px; }
-  .nod { margin-bottom: 8px; }
-  .site-footer { padding: 10px 0 12px; font-size: 10px; }
+  margin: 0;                       /* use gap instead */
 }
 
 /* ONE OF US */
@@ -79,8 +66,8 @@ body {
   letter-spacing: 0.35em;
   text-transform: uppercase;
   opacity: 0.6;
-  margin-bottom: 12px;
   transition: opacity 0.25s ease;
+  margin: 0;                       /* use gap instead */
 }
 .nod:hover { opacity: 0.9; }
 
@@ -107,15 +94,21 @@ a:hover { opacity: 0.6; }
   overflow: hidden;
 }
 
-/* Footer — natural flow, never overlaps */
+/* Footer — in normal flow, never overlaps, always visible */
 .site-footer {
-  margin-top: auto;
-  padding: 16px 0 18px;
+  padding: 14px 0 16px;
   font-size: 11px;
   letter-spacing: 0.04em;
   color: rgba(0, 0, 0, 0.3);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   pointer-events: none;
+}
+
+/* Short-height screens: tighten everything further */
+@media (max-height: 720px) {
+  .content { gap: 8px; padding: 12px 16px; }
+  .content img { max-height: 50vh; }
+  .site-footer { font-size: 10px; padding: 10px 0 12px; }
 }
 </style>
   </head>
