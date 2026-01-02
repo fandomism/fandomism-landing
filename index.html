@@ -18,19 +18,11 @@
 :root {
   --bg: #EDE6D8;
   --text: #111;
-
-  /* Footer sizing (used to calculate safe image height) */
-  --footer-pad-y: 14px;
-  --footer-font: 11px;
-  --footer-line: 1.2; /* line-height multiplier */
-
-  /* Spacing inside main content */
-  --content-pad-y: clamp(12px, 4svh, 48px);
-  --content-pad-x: 16px;
-  --gap: 12px;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -38,50 +30,33 @@ body {
   color: var(--text);
   text-align: center;
 
-  /* “small viewport height” avoids browser UI stealing space */
   min-height: 100svh;
-
-  display: grid;
-  grid-template-rows: 1fr auto;
-
-  /* prevents rare overflow weirdness in grid */
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Main centered content */
+/* Main content */
 .content {
-  position: relative; /* keeps hidden SEO scoped */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  padding: var(--content-pad-y) var(--content-pad-x);
-  gap: var(--gap);
-
-  min-width: 0;
+  padding: clamp(20px, 6vh, 72px) 16px;
+  gap: 12px;
 }
 
-/* LOGO — constrained by BOTH width and height so footer + contact always fit */
+/* LOGO — never distort, never overflow */
 .content img {
-  display: block;
-
-  /* width constraint */
-  inline-size: min(92vw, 1000px);
-  max-inline-size: 1000px;
-
-  /* never stretch */
+  width: min(92vw, 1000px);
+  max-width: 640px;
   height: auto;
 
-  /* height constraint (the important part) */
-  max-block-size: calc(
-    100svh
-    - (2 * var(--content-pad-y))
-    - (3 * var(--gap))
-    - (var(--footer-pad-y) * 2)
-    - (var(--footer-font) * var(--footer-line))
-    - 24px
-  );
+  /* prevents footer/contact from being pushed off on short screens */
+  max-height: 55svh;
+
+  display: block;
 }
 
 /* ONE OF US */
@@ -93,7 +68,10 @@ body {
   opacity: 0.6;
   transition: opacity 0.25s ease;
 }
-.nod:hover { opacity: 0.9; }
+
+.nod:hover {
+  opacity: 0.9;
+}
 
 /* CONTACT */
 a {
@@ -107,7 +85,10 @@ a {
   border-bottom: 2px solid var(--text);
   padding-bottom: 4px;
 }
-a:hover { opacity: 0.6; }
+
+a:hover {
+  opacity: 0.6;
+}
 
 /* Invisible SEO */
 .seo {
@@ -118,20 +99,31 @@ a:hover { opacity: 0.6; }
   overflow: hidden;
 }
 
-/* Footer — normal flow, always visible */
+/* Footer — always visible, never overlapping */
 .site-footer {
-  padding: var(--footer-pad-y) 0 calc(var(--footer-pad-y) + 2px);
-  font-size: var(--footer-font);
-  line-height: var(--footer-line);
+  padding: 14px 0 16px;
+  font-size: 11px;
   letter-spacing: 0.04em;
   color: rgba(0, 0, 0, 0.3);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   pointer-events: none;
 }
 
-/* Extra-tight heights: squeeze a bit more */
+/* Short-height screens: gently tighten */
 @media (max-height: 720px) {
-  :root { --gap: 8px; --footer-font: 10px; }
+  .content {
+    padding: 16px 16px;
+    gap: 8px;
+  }
+
+  .content img {
+    max-height: 48svh;
+  }
+
+  .site-footer {
+    font-size: 10px;
+    padding: 10px 0 12px;
+  }
 }
 </style>
   </head>
