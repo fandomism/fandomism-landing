@@ -63,8 +63,13 @@
         color: #111;
         opacity: 0.6;
         margin-bottom: 12px;
+        transition: opacity 0.25s ease;
       }
 
+      .nod:hover {
+        opacity: 0.9;
+      }
+      
       /* CONTACT — bold */
       a {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -90,6 +95,25 @@
         height: 1px;
         overflow: hidden;
       }
+
+      /* Footer (quiet legal line) */
+.site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(0, 0, 0, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  pointer-events: none;
+}
+
+body {
+  padding-bottom: 64px;
+}
+      
     </style>
   </head>
 
@@ -98,7 +122,7 @@
 
     <div class="nod">One of us</div>
 
-    <a href="mailto:fandomexperiment@gmail.com?subject=Fandomism%20Inquiry">
+    <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
       Contact
     </a>
 
@@ -106,5 +130,8 @@
       Fandomism is a cultural research and creative platform exploring fandom,
       identity, community, media, and modern participation.
     </div>
+
+    <footer class="site-footer">© 2026 Fandomism LLC. All rights reserved.</footer>
+    
   </body>
 </html>
