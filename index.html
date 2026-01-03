@@ -5,6 +5,15 @@
     <title>Fandomism</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.getRegistrations().then(regs => {
+      regs.forEach(r => r.unregister());
+    });
+  });
+}
+</script>
 
     <!-- Favicon (PNG) -->
     <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
