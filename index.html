@@ -24,7 +24,7 @@
         --text: #111;
 
         /* Footer */
-        --footerH: 46px;
+        --footerH: 34px; /* tighter: brings footer copy closer to bottom */
 
         /* LOGO sizing (desktop-forward) */
         --logoMaxW: 1100px;
@@ -171,11 +171,10 @@
       }
 
       /* --------------------------------------------------
-         SHORT HEIGHT TUNING
+         SHORT HEIGHT TUNING (do NOT override --footerH)
       -------------------------------------------------- */
       @media (max-height: 720px) {
         :root {
-          --footerH: 42px;
           --minGapLogo: 18px;
           --minGapFooter: 14px;
           --metaBias: 6px;
@@ -194,14 +193,12 @@
       }
 
       /* --------------------------------------------------
-         EDGE-CASE FALLBACK (ALLOW SCROLL)
-         Triggers when very short OR too square/compressed.
-         Fixes Chrome overlap + reduces Safari resize jitter.
+         EDGE-CASE FALLBACK (ALLOW SCROLL) — DESKTOP ONLY
+         Prevents overlap in squat/square desktop windows.
+         Won't trigger on phones/tablets (fixes mobile glitches).
       -------------------------------------------------- */
-      @media (max-height: 620px), (max-aspect-ratio: 4/3) {
-        html, body {
-          height: auto; /* crucial for Chrome scrolling */
-        }
+      @media (hover: hover) and (pointer: fine) and ((max-height: 620px) or (max-aspect-ratio: 4/3)) {
+        html, body { height: auto; }
 
         body {
           overflow-y: auto;
@@ -210,8 +207,8 @@
 
         .stage {
           height: auto;
-          min-height: 100vh; /* more stable during desktop resize */
-          padding: 6vh 0 calc(var(--footerH) + 4vh);
+          min-height: 0;      /* prevents giant blank space */
+          padding: 6vh 0 4vh; /* simple + stable */
         }
 
         .stage img {
@@ -234,7 +231,7 @@
           position: relative;
           bottom: auto;
           height: auto;
-          padding: 18px 0 calc(18px + env(safe-area-inset-bottom));
+          padding: 10px 0 calc(12px + env(safe-area-inset-bottom));
         }
       }
     </style>
