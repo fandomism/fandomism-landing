@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
 
-    <link
-      rel="icon"
-      type="image/png"
-      href="/fandomism-favicon.png"
-      sizes="32x32"
-    />
+    <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
 
     <meta
       name="description"
@@ -23,99 +18,74 @@
         --bg: #ede6d8;
         --text: #111;
 
-        /* Footer */
-        --footerH: 34px; /* tighter: brings footer copy closer to bottom */
+        /* Footer feel */
+        --footerH: 30px;          /* your request */
+        --footerPadBottom: 8px;   /* smaller = closer to screen bottom */
 
-        /* LOGO sizing (desktop-forward) */
+        /* Logo sizing */
         --logoMaxW: 1100px;
         --logoVW: 96vw;
         --logoMaxH: 62svh;
 
-        /* TRUE logo aspect ratio: 10506 × 3697 */
+        /* Logo aspect ratio: 10506 × 3697 */
         --logoARw: 10506;
         --logoARh: 3697;
 
-        /* Spacing guardrails */
-        --minGapLogo: 22px;
-        --minGapFooter: 18px;
-
-        /* Meta vertical taste tweak (positive = lower) */
-        --metaBias: 10px;
+        /* Spacing */
+        --gap: clamp(10px, 2vh, 22px);
+        --pagePadY: clamp(14px, 3vh, 32px);
       }
 
       * { box-sizing: border-box; }
 
       html, body { height: 100%; }
 
+      /* Body never scrolls (more stable on Safari); .page scrolls only if needed */
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow: hidden; /* locked poster feel by default */
+        overflow: hidden;
       }
 
-      /* --------------------------------------------------
-         STAGE (absolute-layout mode)
-      -------------------------------------------------- */
+      /* Page layout: main fills available space, footer sits at bottom naturally */
+      .page {
+        min-height: 100vh;   /* fallback */
+        min-height: 100dvh;  /* modern: matches visible viewport (best for mobile + Safari) */
+        display: grid;
+        grid-template-rows: 1fr auto;
+        overflow-y: auto;    /* only scrolls if content exceeds */
+        overflow-x: hidden;
+      }
+
+      /* Main stage: spacer / logo / meta / spacer */
       .stage {
-        position: relative;
-        width: 100%;
-        height: 100svh;
-
-        --footerTop: calc(100% - var(--footerH));
-
-        /* width allowed by max-height */
-        --logoWFromMaxH: calc(
-          var(--logoMaxH) * (var(--logoARw) / var(--logoARh))
-        );
-
-        /* final logo width */
-        --logoW: min(var(--logoVW), var(--logoMaxW), var(--logoWFromMaxH));
-
-        /* derived logo height */
-        --logoH: calc(var(--logoW) * (var(--logoARh) / var(--logoARw)));
-
-        /* logo bottom reference */
-        --logoBottom: calc(50% + (var(--logoH) / 2));
+        display: grid;
+        grid-template-rows: 1fr auto auto 1fr;
+        align-items: center;
+        justify-items: center;
+        row-gap: var(--gap);
+        padding: var(--pagePadY) 0;
       }
 
-      /* Logo: true center, never distort */
       .stage img {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-
-        width: var(--logoW);
-        height: auto !important;
-
+        width: min(var(--logoVW), var(--logoMaxW));
+        max-height: var(--logoMaxH);
+        height: auto;
         aspect-ratio: calc(var(--logoARw) / var(--logoARh));
         object-fit: contain;
         display: block;
       }
 
-      /* Meta: midpoint, clamped to never overlap logo or footer */
       .meta {
-        position: absolute;
-        left: 50%;
-
-        --lowerBound: calc(var(--logoBottom) + var(--minGapLogo));
-        --upperBound: calc(var(--footerTop) - var(--minGapFooter));
-        --ideal: calc(
-          ((var(--logoBottom) + var(--footerTop)) / 2) + var(--metaBias)
-        );
-
-        top: max(var(--lowerBound), min(var(--ideal), var(--upperBound)));
-
-        transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        z-index: 2;
       }
 
+      /* ONE OF US */
       .nod {
         font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
         font-size: 10px;
@@ -126,6 +96,7 @@
       }
       .nod:hover { opacity: 0.9; }
 
+      /* CONTACT */
       a {
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
           Helvetica, Arial, sans-serif;
@@ -140,6 +111,22 @@
       }
       a:hover { opacity: 0.6; }
 
+      /* Footer: close to bottom edge, safe-area aware */
+      .site-footer {
+        min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
+        padding: 0 0 calc(var(--footerPadBottom) + env(safe-area-inset-bottom));
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        color: rgba(0, 0, 0, 0.3);
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        pointer-events: none;
+      }
+
+      /* Invisible SEO text */
       .seo {
         position: absolute;
         left: -9999px;
@@ -148,119 +135,48 @@
         overflow: hidden;
       }
 
-      /* Footer (locked mode) */
-      .site-footer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        height: calc(var(--footerH) + env(safe-area-inset-bottom));
-        padding-bottom: env(safe-area-inset-bottom);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: rgba(0, 0, 0, 0.3);
-        font-family: -apple-system, BlinkMacSystemFont,
-          "Helvetica Neue", Arial, sans-serif;
-        pointer-events: none;
-      }
-
-      /* --------------------------------------------------
-         SHORT HEIGHT TUNING (do NOT override --footerH)
-      -------------------------------------------------- */
+      /* Slightly tighter on short heights */
       @media (max-height: 720px) {
         :root {
-          --minGapLogo: 18px;
-          --minGapFooter: 14px;
-          --metaBias: 6px;
+          --logoMaxH: 58svh;
+          --gap: clamp(8px, 1.6vh, 16px);
+          --pagePadY: clamp(10px, 2vh, 20px);
         }
         .site-footer { font-size: 10px; }
       }
 
-      /* --------------------------------------------------
-         VERY LARGE DESKTOPS
-      -------------------------------------------------- */
+      /* Large desktops: allow a bit more logo */
       @media (min-width: 1800px) {
         :root {
           --logoMaxW: 1200px;
           --logoMaxH: 65svh;
         }
       }
-
-      /* --------------------------------------------------
-         EDGE-CASE FALLBACK (ALLOW SCROLL) — DESKTOP ONLY
-         Prevents overlap in squat/square desktop windows.
-         Won't trigger on phones/tablets (fixes mobile glitches).
-      -------------------------------------------------- */
-      @media (hover: hover) and (pointer: fine) and ((max-height: 620px) or (max-aspect-ratio: 4/3)) {
-        html, body { height: auto; }
-
-        body {
-          overflow-y: auto;
-          overflow-x: hidden;
-        }
-
-        .stage {
-          height: auto;
-          min-height: 0;      /* prevents giant blank space */
-          padding: 6vh 0 4vh; /* simple + stable */
-        }
-
-        .stage img {
-          position: relative;
-          left: auto;
-          top: auto;
-          transform: none;
-          margin: 0 auto;
-        }
-
-        .meta {
-          position: relative;
-          left: auto;
-          top: auto;
-          transform: none;
-          margin: 22px auto 0;
-        }
-
-        .site-footer {
-          position: relative;
-          bottom: auto;
-          height: auto;
-          padding: 10px 0 calc(12px + env(safe-area-inset-bottom));
-        }
-      }
     </style>
   </head>
 
   <body>
-    <main class="stage">
-      <img
-        src="fandomism-logo.png"
-        alt="Fandomism logo"
-        width="10506"
-        height="3697"
-      />
+    <div class="page">
+      <main class="stage">
+        <img
+          src="fandomism-logo.png"
+          alt="Fandomism logo"
+          width="10506"
+          height="3697"
+        />
 
-      <div class="meta">
-        <div class="nod">One of us</div>
-        <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-          Contact
-        </a>
-      </div>
+        <div class="meta">
+          <div class="nod">One of us</div>
+          <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
+        </div>
 
-      <div class="seo">
-        Fandomism is a cultural research and creative platform exploring fandom,
-        identity, community, media, and modern participation.
-      </div>
-    </main>
+        <div class="seo">
+          Fandomism is a cultural research and creative platform exploring fandom,
+          identity, community, media, and modern participation.
+        </div>
+      </main>
 
-    <footer class="site-footer">
-      © 2026 Fandomism LLC. All rights reserved.
-    </footer>
+      <footer class="site-footer">© 2026 Fandomism LLC. All rights reserved.</footer>
+    </div>
   </body>
 </html>
