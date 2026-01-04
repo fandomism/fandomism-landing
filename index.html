@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://fandomism.com/" />
 
     <script>
-     Attached: if ("serviceWorker" in navigator) {
+      if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.getRegistrations().then((regs) => {
             regs.forEach((r) => r.unregister());
@@ -31,18 +31,12 @@
         /* Footer */
         --footerH: 46px;
 
-        /*
-          LOGO sizing (desktop boosted):
-          - scales with viewport but capped for sanity
-        */
-        --logoMaxW: 1100px;     /* larger than before */
+        /* LOGO sizing (desktop-forward) */
+        --logoMaxW: 1100px;   
         --logoVW: 96vw;
-        --logoMaxH: 62svh;     /* slightly taller allowance */
+        --logoMaxH: 62svh;
 
-        /*
-          TRUE aspect ratio of fandomism-logo.png
-          Dimensions: 10506 × 3697
-        */
+        /* TRUE logo aspect ratio: 10506 × 3697 */
         --logoARw: 10506;
         --logoARh: 3697;
 
@@ -50,11 +44,7 @@
         --minGapLogo: 22px;
         --minGapFooter: 18px;
 
-        /*
-          Meta vertical taste tweak:
-          Positive pushes LOWER (but still clamped to never hit footer).
-          Adjust 6–14px if you want.
-        */
+        /* Meta vertical taste tweak (positive = lower) */
         --metaBias: 10px;
       }
 
@@ -67,10 +57,12 @@
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow: hidden;
+        overflow: hidden; /* locked poster feel by default */
       }
 
-      /* Full-viewport stage */
+      /* --------------------------------------------------
+         STAGE (absolute-layout mode)
+      -------------------------------------------------- */
       .stage {
         position: relative;
         width: 100%;
@@ -78,20 +70,22 @@
 
         --footerTop: calc(100% - var(--footerH));
 
-        /* max width allowed by max height using aspect ratio */
-        --logoWFromMaxH: calc(var(--logoMaxH) * (var(--logoARw) / var(--logoARh)));
+        /* width allowed by max-height */
+        --logoWFromMaxH: calc(
+          var(--logoMaxH) * (var(--logoARw) / var(--logoARh))
+        );
 
-        /* final logo width is tightest constraint */
+        /* final logo width */
         --logoW: min(var(--logoVW), var(--logoMaxW), var(--logoWFromMaxH));
 
-        /* rendered logo height */
+        /* derived logo height */
         --logoH: calc(var(--logoW) * (var(--logoARh) / var(--logoARw)));
 
-        /* reference line: logo bottom edge */
+        /* logo bottom reference */
         --logoBottom: calc(50% + (var(--logoH) / 2));
       }
 
-      /* Logo: true center, guaranteed proportions */
+      /* Logo: true center, never distort */
       .stage img {
         position: absolute;
         left: 50%;
@@ -103,18 +97,19 @@
 
         aspect-ratio: calc(var(--logoARw) / var(--logoARh));
         object-fit: contain;
-
         display: block;
       }
 
-      /* Meta: ideal midpoint, clamped to never overlap logo or footer */
+      /* Meta: midpoint, clamped to never overlap logo or footer */
       .meta {
         position: absolute;
         left: 50%;
 
         --lowerBound: calc(var(--logoBottom) + var(--minGapLogo));
         --upperBound: calc(var(--footerTop) - var(--minGapFooter));
-        --ideal: calc(((var(--logoBottom) + var(--footerTop)) / 2) + var(--metaBias));
+        --ideal: calc(
+          ((var(--logoBottom) + var(--footerTop)) / 2) + var(--metaBias)
+        );
 
         top: max(var(--lowerBound), min(var(--ideal), var(--upperBound)));
 
@@ -137,7 +132,8 @@
       .nod:hover { opacity: 0.9; }
 
       a {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+          Helvetica, Arial, sans-serif;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.18em;
@@ -157,7 +153,7 @@
         overflow: hidden;
       }
 
-      /* Footer pinned */
+      /* Footer (locked mode) */
       .site-footer {
         position: fixed;
         left: 0;
@@ -174,11 +170,14 @@
         font-size: 11px;
         letter-spacing: 0.04em;
         color: rgba(0, 0, 0, 0.3);
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont,
+          "Helvetica Neue", Arial, sans-serif;
         pointer-events: none;
       }
 
-      /* Short-height screens */
+      /* --------------------------------------------------
+         SHORT HEIGHT TUNING
+      -------------------------------------------------- */
       @media (max-height: 720px) {
         :root {
           --footerH: 42px;
@@ -189,11 +188,53 @@
         .site-footer { font-size: 10px; }
       }
 
-      /* Very wide desktop: let logo breathe */
+      /* --------------------------------------------------
+         VERY LARGE DESKTOPS
+      -------------------------------------------------- */
       @media (min-width: 1800px) {
         :root {
-          --logoMaxW: 1050px;  /* pushes it ~15–25% bigger on big desktops */
+          --logoMaxW: 1200px;
           --logoMaxH: 65svh;
+        }
+      }
+
+      /* --------------------------------------------------
+         EDGE-CASE FALLBACK (ALLOW SCROLL)
+         Prevents overlap at extreme compression
+      -------------------------------------------------- */
+      @media (max-height: 520px) {
+        body {
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .stage {
+          height: auto;
+          min-height: 100svh;
+          padding: 6vh 0 calc(var(--footerH) + 4vh);
+        }
+
+        .stage img {
+          position: relative;
+          left: auto;
+          top: auto;
+          transform: none;
+          margin: 0 auto;
+        }
+
+        .meta {
+          position: relative;
+          left: auto;
+          top: auto;
+          transform: none;
+          margin: 22px auto 0;
+        }
+
+        .site-footer {
+          position: relative;
+          bottom: auto;
+          height: auto;
+          padding: 18px 0 calc(18px + env(safe-area-inset-bottom));
         }
       }
     </style>
@@ -210,7 +251,9 @@
 
       <div class="meta">
         <div class="nod">One of us</div>
-        <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
+        <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
+          Contact
+        </a>
       </div>
 
       <div class="seo">
@@ -219,6 +262,8 @@
       </div>
     </main>
 
-    <footer class="site-footer">© 2026 Fandomism LLC. All rights reserved.</footer>
+    <footer class="site-footer">
+      © 2026 Fandomism LLC. All rights reserved.
+    </footer>
   </body>
 </html>
