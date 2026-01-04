@@ -51,10 +51,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   padding: clamp(20px, 6vh, 72px) 16px;
-  gap: 12px;
+  gap: 0; 
 }
 
 /* LOGO — never distort, never overflow */
@@ -67,8 +67,18 @@ body {
   max-height: 55svh;
 
   display: block;
+  margin-top: clamp(40px, 12vh, 140px);
 }
 
+/* TEXT BLOCK (ONE OF US + CONTACT) */
+.meta {
+  margin-top: clamp(24px, 4vh, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+  
 /* ONE OF US */
 .nod {
   font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
@@ -140,9 +150,12 @@ a:hover {
 
   <body>
     <main class="content">
-      <img src="fandomism-logo.png" alt="Fandomism logo" />
-      <div class="nod">One of us</div>
-      <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
+  <img src="fandomism-logo.png" alt="Fandomism logo" width="1600" height="600" />
+
+  <div class="meta">
+    <div class="nod">One of us</div>
+    <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
+  </div>
 
       <div class="seo">
         Fandomism is a cultural research and creative platform exploring fandom,
