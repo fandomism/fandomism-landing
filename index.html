@@ -6,86 +6,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
 
-    <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
+    <!-- TEMP: keep until you're 100% sure no SW is alive -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          regs.forEach((r) => r.unregister());
+        });
+      }
+    </script>
 
-    <meta
-      name="description"
-      content="Fandomism explores fandom as culture, identity, and community."
-    />
+    <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
+    <meta name="description" content="Fandomism explores fandom as culture, identity, and community." />
 
     <style>
       :root {
         --bg: #ede6d8;
         --text: #111;
 
-        /* Footer feel */
-        --footerH: 30px;          /* your request */
-        --footerPadBottom: 8px;   /* smaller = closer to screen bottom */
+        /* Footer */
+        --footerH: 30px;
+        --footerPadBottom: 8px;
 
         /* Logo sizing */
         --logoMaxW: 1100px;
         --logoVW: 96vw;
         --logoMaxH: 62svh;
 
-        /* Logo aspect ratio: 10506 × 3697 */
+        /* Logo aspect ratio */
         --logoARw: 10506;
         --logoARh: 3697;
 
         /* Spacing */
         --gap: clamp(10px, 2vh, 22px);
         --pagePadY: clamp(14px, 3vh, 32px);
+
+        /* Downward bias (safe): adds a little more space above than below */
+        --biasTop: clamp(0px, 2vh, 22px);
       }
 
       * { box-sizing: border-box; }
-
       html, body { height: 100%; }
 
-      /* Body never scrolls (more stable on Safari); .page scrolls only if needed */
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow: hidden;
+        overflow: hidden; /* body never scrolls */
       }
 
-      /* Page layout: main fills available space, footer sits at bottom naturally */
+      /* The page is the scroll container (only if needed) */
       .page {
-        min-height: 100vh;   /* fallback */
-        min-height: 100dvh;  /* modern: matches visible viewport (best for mobile + Safari) */
-        display: grid;
-        grid-template-rows: 1fr auto;
-        overflow-y: auto;    /* only scrolls if content exceeds */
+        height: 100vh;   /* fallback */
+        height: 100dvh;  /* modern visible viewport */
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
         overflow-x: hidden;
       }
 
-      /* Main stage: spacer / logo / meta / spacer */
+      /* Main takes remaining height above footer */
       .stage {
-        display: grid;
-        grid-template-rows: 1fr auto auto 1fr;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-items: center;
-        row-gap: var(--gap);
-        padding: var(--pagePadY) 0;
+
+        padding: calc(var(--pagePadY) + var(--biasTop)) 0 var(--pagePadY);
       }
 
       .stage img {
         width: min(var(--logoVW), var(--logoMaxW));
         max-height: var(--logoMaxH);
         height: auto;
+
         aspect-ratio: calc(var(--logoARw) / var(--logoARh));
         object-fit: contain;
         display: block;
       }
 
       .meta {
+        margin-top: var(--gap);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
       }
 
-      /* ONE OF US */
       .nod {
         font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
         font-size: 10px;
@@ -96,10 +104,8 @@
       }
       .nod:hover { opacity: 0.9; }
 
-      /* CONTACT */
       a {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-          Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.18em;
@@ -111,10 +117,11 @@
       }
       a:hover { opacity: 0.6; }
 
-      /* Footer: close to bottom edge, safe-area aware */
       .site-footer {
+        flex: 0 0 auto;
         min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
         padding: 0 0 calc(var(--footerPadBottom) + env(safe-area-inset-bottom));
+
         display: flex;
         align-items: flex-end;
         justify-content: center;
@@ -126,58 +133,8 @@
         pointer-events: none;
       }
 
-      /* Invisible SEO text */
       .seo {
         position: absolute;
         left: -9999px;
         width: 1px;
         height: 1px;
-        overflow: hidden;
-      }
-
-      /* Slightly tighter on short heights */
-      @media (max-height: 720px) {
-        :root {
-          --logoMaxH: 58svh;
-          --gap: clamp(8px, 1.6vh, 16px);
-          --pagePadY: clamp(10px, 2vh, 20px);
-        }
-        .site-footer { font-size: 10px; }
-      }
-
-      /* Large desktops: allow a bit more logo */
-      @media (min-width: 1800px) {
-        :root {
-          --logoMaxW: 1200px;
-          --logoMaxH: 65svh;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="page">
-      <main class="stage">
-        <img
-          src="fandomism-logo.png"
-          alt="Fandomism logo"
-          width="10506"
-          height="3697"
-        />
-
-        <div class="meta">
-          <div class="nod">One of us</div>
-          <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
-        </div>
-
-        <div class="seo">
-          Fandomism is a cultural research and creative platform exploring fandom,
-          identity, community, media, and modern participation.
-        </div>
-      </main>
-
-      <footer class="site-footer">© 2026 Fandomism LLC. All rights reserved.</footer>
-    </div>
-  </body>
-</html>
-
