@@ -18,52 +18,61 @@
         --bg: #ede6d8;
         --text: #111;
 
-        /* footer feel */
-        --footerH: 30px; /* your request */
-        --footerPadBottom: 10px; /* pulls copy closer to screen bottom */
+        /* Footer */
+        --footerH: 30px;          /* your request */
+        --footerPadBottom: 8px;   /* smaller = closer to bottom */
 
-        /* logo sizing */
+        /* Logo sizing */
         --logoMaxW: 1100px;
         --logoVW: 96vw;
         --logoMaxH: 62svh;
 
-        /* logo aspect ratio: 10506 × 3697 */
+        /* Logo aspect ratio: 10506 × 3697 */
         --logoARw: 10506;
         --logoARh: 3697;
 
-        /* spacing */
+        /* Spacing */
         --gap: clamp(10px, 2vh, 22px);
         --pagePadY: clamp(14px, 3vh, 32px);
+
+        /* Downward bias for ultra-wide weird windows (safe everywhere) */
+        --stageBias: clamp(0px, 2vh, 22px);
       }
 
       * { box-sizing: border-box; }
 
       html, body { height: 100%; }
 
+      /* Body never scrolls; .page scrolls only if needed */
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow-x: hidden;
-        overflow-y: auto; /* scroll only when truly needed */
+        overflow: hidden;
       }
 
-      /* Page layout: main fills space, footer sits at bottom naturally */
+      /* Page: main fills, footer sits bottom */
       .page {
-        min-height: 100svh;
-        display: grid;
-        grid-template-rows: 1fr auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto; /* only if needed */
       }
 
-      /* Main stage: spacer / logo / meta / spacer (keeps it centered cleanly) */
+      /* Main: centers content; bias pushes it slightly down */
       .stage {
-        display: grid;
-        grid-template-rows: 1fr auto auto 1fr;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        justify-items: center;
-        row-gap: var(--gap);
+
+        /* This is the key: stable on mobile, helps edge-case desktop */
         padding: var(--pagePadY) 0;
+        transform: translateY(var(--stageBias));
       }
 
       .stage img {
@@ -76,12 +85,14 @@
       }
 
       .meta {
+        margin-top: var(--gap);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
       }
 
+      /* ONE OF US */
       .nod {
         font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
         font-size: 10px;
@@ -92,6 +103,7 @@
       }
       .nod:hover { opacity: 0.9; }
 
+      /* CONTACT */
       a {
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 12px;
@@ -105,12 +117,13 @@
       }
       a:hover { opacity: 0.6; }
 
-      /* Footer: bottom row, close to bottom edge, safe-area aware */
+      /* Footer */
       .site-footer {
+        flex: 0 0 auto;
         min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
         padding: 0 0 calc(var(--footerPadBottom) + env(safe-area-inset-bottom));
         display: flex;
-        align-items: flex-end; /* keeps copy visually close to bottom */
+        align-items: flex-end;
         justify-content: center;
 
         font-size: 11px;
@@ -120,7 +133,7 @@
         pointer-events: none;
       }
 
-      /* Invisible SEO text */
+      /* Invisible SEO */
       .seo {
         position: absolute;
         left: -9999px;
@@ -129,12 +142,13 @@
         overflow: hidden;
       }
 
-      /* Slightly tighter on short heights (no footer height override) */
+      /* Short heights: tighten spacing a bit, keep same logic */
       @media (max-height: 720px) {
         :root {
           --logoMaxH: 58svh;
           --gap: clamp(8px, 1.6vh, 16px);
           --pagePadY: clamp(10px, 2vh, 20px);
+          --stageBias: clamp(0px, 1.5vh, 14px);
         }
         .site-footer { font-size: 10px; }
       }
@@ -144,6 +158,7 @@
         :root {
           --logoMaxW: 1200px;
           --logoMaxH: 65svh;
+          --stageBias: clamp(0px, 2vh, 26px);
         }
       }
     </style>
