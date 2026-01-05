@@ -42,8 +42,9 @@
         --gap: clamp(10px, 2vh, 22px);
         --pagePadY: clamp(14px, 3vh, 32px);
 
-        /* Downward bias (adds breathing room above) */
+        /* Bias */
         --biasTop: clamp(0px, 2vh, 22px);
+        --metaBias: 8px; /* 👈 subtle downward taste tweak */
       }
 
       /* dvh fallback */
@@ -53,47 +54,41 @@
         }
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      html,
-      body {
-        height: 100%;
-      }
+      html, body { height: 100%; }
 
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow: hidden; /* body never scrolls */
+        overflow: hidden;
       }
 
-      /* Page is the scroll container only if needed */
       .page {
-        height: 100vh;  /* fallback */
-        height: 100dvh; /* modern visible viewport */
-
+        height: 100vh;
+        height: 100dvh;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
         overflow-x: hidden;
       }
 
-      /* Main stage (everything above footer) */
+      /* GRID-BASED STAGE */
       .stage {
         flex: 1 1 auto;
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: grid;
+        grid-template-rows: 1fr auto 1fr;
+        justify-items: center;
 
-        /* keep your poster-like top/bottom feel */
         padding: calc(var(--pagePadY) + var(--biasTop)) 0 var(--pagePadY);
       }
 
       .stage img {
+        grid-row: 2;
+
         width: min(var(--logoVW), var(--logoMaxW));
         max-height: var(--logoMaxH);
         height: auto;
@@ -103,16 +98,14 @@
         display: block;
       }
 
-      /* This is the key:
-         it fills the remaining space beneath the logo and centers meta within it */
       .meta-slot {
-        flex: 1 1 auto;
-        min-height: var(--gap); /* ensures there's always at least a little breathing room */
+        grid-row: 3;
+        width: 100%;
+        min-height: var(--gap);
 
         display: flex;
-        align-items: center;      /* vertical center within remaining space */
-        justify-content: center;  /* horizontal center */
-        width: 100%;
+        align-items: center;
+        justify-content: center;
       }
 
       .meta {
@@ -120,6 +113,8 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
+
+        transform: translateY(var(--metaBias)); /* 👈 visual-only adjustment */
       }
 
       .nod {
@@ -131,9 +126,7 @@
         transition: opacity 0.25s ease;
       }
 
-      .nod:hover {
-        opacity: 0.9;
-      }
+      .nod:hover { opacity: 0.9; }
 
       a {
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
@@ -148,9 +141,7 @@
         padding-bottom: 4px;
       }
 
-      a:hover {
-        opacity: 0.6;
-      }
+      a:hover { opacity: 0.6; }
 
       .site-footer {
         flex: 0 0 auto;
@@ -180,25 +171,21 @@
         overflow: hidden;
       }
 
-      /* ------------------------------
-         Motion-safe fade-in
-      ------------------------------ */
+      /* Motion-safe fade-in */
       @media (prefers-reduced-motion: no-preference) {
         .stage img,
         .meta {
           opacity: 0;
-          transform: translateY(6px);
+          transform: translateY(calc(var(--metaBias) + 6px));
           animation: fadeUp 500ms ease forwards;
         }
 
-        .meta {
-          animation-delay: 120ms;
-        }
+        .meta { animation-delay: 120ms; }
 
         @keyframes fadeUp {
           to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(var(--metaBias));
           }
         }
       }
@@ -210,17 +197,14 @@
           --gap: clamp(8px, 1.6vh, 16px);
           --pagePadY: clamp(10px, 2vh, 20px);
           --biasTop: clamp(0px, 1.5vh, 14px);
+          --metaBias: 6px;
         }
 
         @supports not (height: 1dvh) {
-          :root {
-            --logoMaxH: 58vh;
-          }
+          :root { --logoMaxH: 58vh; }
         }
 
-        .site-footer {
-          font-size: 10px;
-        }
+        .site-footer { font-size: 10px; }
       }
 
       /* Large desktops */
@@ -229,12 +213,11 @@
           --logoMaxW: 1200px;
           --logoMaxH: 65dvh;
           --biasTop: clamp(0px, 2vh, 26px);
+          --metaBias: 10px;
         }
 
         @supports not (height: 1dvh) {
-          :root {
-            --logoMaxH: 65vh;
-          }
+          :root { --logoMaxH: 65vh; }
         }
       }
     </style>
