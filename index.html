@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
 
+    <!-- TEMP: remove once 100% sure no service worker remains -->
     <script>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker.getRegistrations().then((regs) => {
-            regs.forEach((r) => r.unregister());
-          });
+        navigator.serviceWorker.getRegistrations().then((regs) => {
+          regs.forEach((r) => r.unregister());
         });
       }
     </script>
@@ -34,96 +33,91 @@
         --text: #111;
 
         /* Footer */
-        --footerH: 46px;
+        --footerH: 30px;
+        --footerPadBottom: 8px;
 
-        /* LOGO sizing (desktop-forward) */
+        /* Logo sizing */
         --logoMaxW: 1100px;
         --logoVW: 96vw;
-        --logoMaxH: 62svh;
 
-        /* TRUE logo aspect ratio: 10506 × 3697 */
+        /* dvh-first viewport handling */
+        --logoMaxH: 62dvh;
+
+        /* Logo aspect ratio */
         --logoARw: 10506;
         --logoARh: 3697;
 
-        /* Spacing guardrails */
-        --minGapLogo: 22px;
-        --minGapFooter: 18px;
+        /* Spacing */
+        --gap: clamp(10px, 2vh, 22px);
+        --pagePadY: clamp(14px, 3vh, 32px);
 
-        /* Meta vertical taste tweak (positive = lower) */
-        --metaBias: 10px;
+        /* Downward bias (adds breathing room above) */
+        --biasTop: clamp(0px, 2vh, 22px);
       }
 
-      * { box-sizing: border-box; }
+      /* dvh fallback */
+      @supports not (height: 1dvh) {
+        :root {
+          --logoMaxH: 62vh;
+        }
+      }
 
-      html, body { height: 100%; }
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
 
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         text-align: center;
-        overflow: hidden; /* locked poster feel by default */
+        overflow: hidden; /* body never scrolls */
       }
 
-      /* --------------------------------------------------
-         STAGE (absolute-layout mode)
-      -------------------------------------------------- */
+      /* Page is the scroll container only if needed */
+      .page {
+        height: 100vh;  /* fallback */
+        height: 100dvh; /* modern visible viewport */
+
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      /* Main stage */
       .stage {
-        position: relative;
-        width: 100%;
-        height: 100svh;
+        flex: 1 1 auto;
 
-        --footerTop: calc(100% - var(--footerH));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-        /* width allowed by max-height */
-        --logoWFromMaxH: calc(
-          var(--logoMaxH) * (var(--logoARw) / var(--logoARh))
-        );
-
-        /* final logo width */
-        --logoW: min(var(--logoVW), var(--logoMaxW), var(--logoWFromMaxH));
-
-        /* derived logo height */
-        --logoH: calc(var(--logoW) * (var(--logoARh) / var(--logoARw)));
-
-        /* logo bottom reference */
-        --logoBottom: calc(50% + (var(--logoH) / 2));
+        padding: calc(var(--pagePadY) + var(--biasTop)) 0 var(--pagePadY);
       }
 
-      /* Logo: true center, never distort */
       .stage img {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-
-        width: var(--logoW);
-        height: auto !important;
+        width: min(var(--logoVW), var(--logoMaxW));
+        max-height: var(--logoMaxH);
+        height: auto;
 
         aspect-ratio: calc(var(--logoARw) / var(--logoARh));
         object-fit: contain;
         display: block;
       }
 
-      /* Meta: midpoint, clamped to never overlap logo or footer */
       .meta {
-        position: absolute;
-        left: 50%;
-
-        --lowerBound: calc(var(--logoBottom) + var(--minGapLogo));
-        --upperBound: calc(var(--footerTop) - var(--minGapFooter));
-        --ideal: calc(
-          ((var(--logoBottom) + var(--footerTop)) / 2) + var(--metaBias)
-        );
-
-        top: max(var(--lowerBound), min(var(--ideal), var(--upperBound)));
-
-        transform: translate(-50%, -50%);
+        margin-top: var(--gap);
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        z-index: 2;
       }
 
       .nod {
@@ -134,7 +128,10 @@
         opacity: 0.6;
         transition: opacity 0.25s ease;
       }
-      .nod:hover { opacity: 0.9; }
+
+      .nod:hover {
+        opacity: 0.9;
+      }
 
       a {
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
@@ -148,28 +145,21 @@
         border-bottom: 2px solid var(--text);
         padding-bottom: 4px;
       }
-      a:hover { opacity: 0.6; }
 
-      .seo {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
+      a:hover {
+        opacity: 0.6;
       }
 
-      /* Footer (locked mode) */
       .site-footer {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        flex: 0 0 auto;
 
-        height: calc(var(--footerH) + env(safe-area-inset-bottom));
-        padding-bottom: env(safe-area-inset-bottom);
+        min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
+        padding-bottom: calc(
+          var(--footerPadBottom) + env(safe-area-inset-bottom)
+        );
 
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: center;
 
         font-size: 11px;
@@ -180,100 +170,77 @@
         pointer-events: none;
       }
 
-      /* --------------------------------------------------
-         SHORT HEIGHT TUNING
-      -------------------------------------------------- */
+      .seo {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      /* Short-height tuning */
       @media (max-height: 720px) {
         :root {
-          --footerH: 42px;
-          --minGapLogo: 18px;
-          --minGapFooter: 14px;
-          --metaBias: 6px;
-        }
-        .site-footer { font-size: 10px; }
-      }
-
-      /* --------------------------------------------------
-         VERY LARGE DESKTOPS
-      -------------------------------------------------- */
-      @media (min-width: 1800px) {
-        :root {
-          --logoMaxW: 1200px;
-          --logoMaxH: 65svh;
-        }
-      }
-
-      /* --------------------------------------------------
-         EDGE-CASE FALLBACK (ALLOW SCROLL)
-         Triggers when very short OR too square/compressed.
-         Fixes Chrome overlap + reduces Safari resize jitter.
-      -------------------------------------------------- */
-      @media (max-height: 620px), (max-aspect-ratio: 4/3) {
-        html, body {
-          height: auto; /* crucial for Chrome scrolling */
+          --logoMaxH: 58dvh;
+          --gap: clamp(8px, 1.6vh, 16px);
+          --pagePadY: clamp(10px, 2vh, 20px);
+          --biasTop: clamp(0px, 1.5vh, 14px);
         }
 
-        body {
-          overflow-y: auto;
-          overflow-x: hidden;
-        }
-
-        .stage {
-          height: auto;
-          min-height: 100vh; /* more stable during desktop resize */
-          padding: 6vh 0 calc(var(--footerH) + 4vh);
-        }
-
-        .stage img {
-          position: relative;
-          left: auto;
-          top: auto;
-          transform: none;
-          margin: 0 auto;
-        }
-
-        .meta {
-          position: relative;
-          left: auto;
-          top: auto;
-          transform: none;
-          margin: 22px auto 0;
+        @supports not (height: 1dvh) {
+          :root {
+            --logoMaxH: 58vh;
+          }
         }
 
         .site-footer {
-          position: relative;
-          bottom: auto;
-          height: auto;
-          padding: 18px 0 calc(18px + env(safe-area-inset-bottom));
+          font-size: 10px;
+        }
+      }
+
+      /* Large desktops */
+      @media (min-width: 1800px) {
+        :root {
+          --logoMaxW: 1200px;
+          --logoMaxH: 65dvh;
+          --biasTop: clamp(0px, 2vh, 26px);
+        }
+
+        @supports not (height: 1dvh) {
+          :root {
+            --logoMaxH: 65vh;
+          }
         }
       }
     </style>
   </head>
 
   <body>
-    <main class="stage">
-      <img
-        src="fandomism-logo.png"
-        alt="Fandomism logo"
-        width="10506"
-        height="3697"
-      />
+    <div class="page">
+      <main class="stage">
+        <img
+          src="fandomism-logo.png"
+          alt="Fandomism logo"
+          width="10506"
+          height="3697"
+        />
 
-      <div class="meta">
-        <div class="nod">One of us</div>
-        <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-          Contact
-        </a>
-      </div>
+        <div class="meta">
+          <div class="nod">One of us</div>
+          <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
+            Contact
+          </a>
+        </div>
 
-      <div class="seo">
-        Fandomism is a cultural research and creative platform exploring fandom,
-        identity, community, media, and modern participation.
-      </div>
-    </main>
+        <div class="seo">
+          Fandomism is a cultural research and creative platform exploring fandom,
+          identity, community, media, and modern participation.
+        </div>
+      </main>
 
-    <footer class="site-footer">
-      © 2026 Fandomism LLC. All rights reserved.
-    </footer>
+      <footer class="site-footer">
+        © 2026 Fandomism LLC. All rights reserved.
+      </footer>
+    </div>
   </body>
 </html>
