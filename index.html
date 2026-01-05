@@ -81,15 +81,15 @@
         overflow-x: hidden;
       }
 
-      /* Main stage */
+      /* Main stage (everything above footer) */
       .stage {
         flex: 1 1 auto;
 
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
 
+        /* keep your poster-like top/bottom feel */
         padding: calc(var(--pagePadY) + var(--biasTop)) 0 var(--pagePadY);
       }
 
@@ -103,8 +103,19 @@
         display: block;
       }
 
+      /* This is the key:
+         it fills the remaining space beneath the logo and centers meta within it */
+      .meta-slot {
+        flex: 1 1 auto;
+        min-height: var(--gap); /* ensures there's always at least a little breathing room */
+
+        display: flex;
+        align-items: center;      /* vertical center within remaining space */
+        justify-content: center;  /* horizontal center */
+        width: 100%;
+      }
+
       .meta {
-        margin-top: var(--gap);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -239,11 +250,13 @@
           height="3697"
         />
 
-        <div class="meta">
-          <div class="nod">One of us</div>
-          <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-            Contact
-          </a>
+        <div class="meta-slot">
+          <div class="meta">
+            <div class="nod">One of us</div>
+            <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
+              Contact
+            </a>
+          </div>
         </div>
 
         <div class="seo">
