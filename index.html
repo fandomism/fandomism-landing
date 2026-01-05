@@ -18,9 +18,9 @@
         --bg: #ede6d8;
         --text: #111;
 
-        /* Footer */
+        /* Footer feel */
         --footerH: 30px;          /* your request */
-        --footerPadBottom: 8px;   /* smaller = closer to bottom */
+        --footerPadBottom: 8px;   /* smaller = closer to screen bottom */
 
         /* Logo sizing */
         --logoMaxW: 1100px;
@@ -34,16 +34,13 @@
         /* Spacing */
         --gap: clamp(10px, 2vh, 22px);
         --pagePadY: clamp(14px, 3vh, 32px);
-
-        /* Downward bias for ultra-wide weird windows (safe everywhere) */
-        --stageBias: clamp(0px, 2vh, 22px);
       }
 
       * { box-sizing: border-box; }
 
       html, body { height: 100%; }
 
-      /* Body never scrolls; .page scrolls only if needed */
+      /* Body never scrolls (more stable on Safari); .page scrolls only if needed */
       body {
         margin: 0;
         background: var(--bg);
@@ -52,27 +49,24 @@
         overflow: hidden;
       }
 
-      /* Page: main fills, footer sits bottom */
+      /* Page layout: main fills available space, footer sits at bottom naturally */
       .page {
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
+        min-height: 100vh;   /* fallback */
+        min-height: 100dvh;  /* modern: matches visible viewport (best for mobile + Safari) */
+        display: grid;
+        grid-template-rows: 1fr auto;
+        overflow-y: auto;    /* only scrolls if content exceeds */
         overflow-x: hidden;
-        overflow-y: auto; /* only if needed */
       }
 
-      /* Main: centers content; bias pushes it slightly down */
+      /* Main stage: spacer / logo / meta / spacer */
       .stage {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        display: grid;
+        grid-template-rows: 1fr auto auto 1fr;
         align-items: center;
-
-        /* This is the key: stable on mobile, helps edge-case desktop */
+        justify-items: center;
+        row-gap: var(--gap);
         padding: var(--pagePadY) 0;
-        transform: translateY(var(--stageBias));
       }
 
       .stage img {
@@ -85,7 +79,6 @@
       }
 
       .meta {
-        margin-top: var(--gap);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -105,7 +98,8 @@
 
       /* CONTACT */
       a {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+          Helvetica, Arial, sans-serif;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 0.18em;
@@ -117,9 +111,8 @@
       }
       a:hover { opacity: 0.6; }
 
-      /* Footer */
+      /* Footer: close to bottom edge, safe-area aware */
       .site-footer {
-        flex: 0 0 auto;
         min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
         padding: 0 0 calc(var(--footerPadBottom) + env(safe-area-inset-bottom));
         display: flex;
@@ -133,7 +126,7 @@
         pointer-events: none;
       }
 
-      /* Invisible SEO */
+      /* Invisible SEO text */
       .seo {
         position: absolute;
         left: -9999px;
@@ -142,13 +135,12 @@
         overflow: hidden;
       }
 
-      /* Short heights: tighten spacing a bit, keep same logic */
+      /* Slightly tighter on short heights */
       @media (max-height: 720px) {
         :root {
           --logoMaxH: 58svh;
           --gap: clamp(8px, 1.6vh, 16px);
           --pagePadY: clamp(10px, 2vh, 20px);
-          --stageBias: clamp(0px, 1.5vh, 14px);
         }
         .site-footer { font-size: 10px; }
       }
@@ -158,7 +150,6 @@
         :root {
           --logoMaxW: 1200px;
           --logoMaxH: 65svh;
-          --stageBias: clamp(0px, 2vh, 26px);
         }
       }
     </style>
@@ -189,3 +180,4 @@
     </div>
   </body>
 </html>
+
