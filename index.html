@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
 
-    <!-- TEMP: remove once 100% sure no service worker remains -->
-    <script>
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations().then((regs) => {
-          regs.forEach((r) => r.unregister());
-        });
-      }
-    </script>
-
     <link
       rel="icon"
       type="image/png"
@@ -176,6 +167,29 @@
         width: 1px;
         height: 1px;
         overflow: hidden;
+      }
+
+      /* ------------------------------
+         Motion-safe fade-in
+      ------------------------------ */
+      @media (prefers-reduced-motion: no-preference) {
+        .stage img,
+        .meta {
+          opacity: 0;
+          transform: translateY(6px);
+          animation: fadeUp 500ms ease forwards;
+        }
+
+        .meta {
+          animation-delay: 120ms;
+        }
+
+        @keyframes fadeUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
       }
 
       /* Short-height tuning */
