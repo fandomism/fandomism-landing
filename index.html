@@ -6,12 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
 
-    <link
-      rel="icon"
-      type="image/png"
-      href="/fandomism-favicon.png"
-      sizes="32x32"
-    />
+    <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
 
     <meta
       name="description"
@@ -30,18 +25,19 @@
         --logoARw: 10506;
         --logoARh: 3697;
 
-        --productBox: min(42vw, 440px, 46dvh);
+        --productBox: min(44vw, 500px, 44dvh);
         --arrowSize: 22px;
+        --arrowGap: clamp(38px, 8vw, 120px);
 
-        --pagePadY: clamp(24px, 5vh, 46px);
-        --stagePadTop: clamp(14px, 4vh, 42px);
-        --stagePadBottom: 14px;
-        --stackGap: 12px;
+        --pagePadTop: clamp(24px, 5vh, 46px);
+        --stagePadTop: clamp(16px, 5vh, 56px);
+        --buyGap: clamp(26px, 4.5vh, 48px);
+        --contactGap: clamp(26px, 5.5vh, 62px);
       }
 
       @supports not (height: 1dvh) {
         :root {
-          --productBox: min(42vw, 440px, 46vh);
+          --productBox: min(44vw, 500px, 44vh);
         }
       }
 
@@ -74,7 +70,7 @@
         flex: 0 0 auto;
         display: flex;
         justify-content: center;
-        padding-top: var(--pagePadY);
+        padding-top: var(--pagePadTop);
       }
 
       .site-logo {
@@ -88,14 +84,11 @@
       .stage {
         flex: 1 1 auto;
         min-height: 0;
-
         display: grid;
-        grid-template-rows: auto auto;
+        grid-template-rows: auto auto auto;
         align-content: center;
         justify-items: center;
-        row-gap: var(--stackGap);
-
-        padding: var(--stagePadTop) 0 var(--stagePadBottom);
+        padding: var(--stagePadTop) 0 16px;
       }
 
       .carousel {
@@ -104,7 +97,7 @@
         grid-template-columns: 28px var(--productBox) 28px;
         align-items: center;
         justify-content: center;
-        gap: clamp(28px, 8vw, 120px);
+        gap: var(--arrowGap);
       }
 
       .carousel-button {
@@ -127,7 +120,7 @@
       }
 
       .carousel-button:focus-visible {
-        outline: 1px solid rgba(0, 0, 0, 0.45);
+        outline: 1px solid rgba(0, 0, 0, 0.35);
         outline-offset: 6px;
       }
 
@@ -145,21 +138,32 @@
         display: block;
         cursor: pointer;
         user-select: none;
+        transform-origin: center center;
       }
 
-      .meta-slot {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 0;
+      .product-image[data-view="front"] {
+        transform: scale(1);
       }
 
-      .meta {
+      .product-image[data-view="right"],
+      .product-image[data-view="left"],
+      .product-image[data-view="back"] {
+        transform: scale(1.2);
+      }
+
+      .buy-slot {
+        margin-top: var(--buyGap);
+      }
+
+      .contact-slot {
+        margin-top: var(--contactGap);
+      }
+
+      .contact-block {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: var(--stackGap);
+        gap: 10px;
       }
 
       .buy-link {
@@ -200,16 +204,11 @@
 
       .site-footer {
         flex: 0 0 auto;
-
         min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
-        padding-bottom: calc(
-          var(--footerPadBottom) + env(safe-area-inset-bottom)
-        );
-
+        padding-bottom: calc(var(--footerPadBottom) + env(safe-area-inset-bottom));
         display: flex;
         align-items: flex-end;
         justify-content: center;
-
         font-size: 11px;
         letter-spacing: 0.04em;
         color: rgba(0, 0, 0, 0.3);
@@ -229,7 +228,8 @@
       @media (prefers-reduced-motion: no-preference) {
         .site-logo,
         .carousel,
-        .meta {
+        .buy-slot,
+        .contact-slot {
           opacity: 0;
           transform: translateY(6px);
           animation: fadeUp 500ms ease forwards;
@@ -239,8 +239,12 @@
           animation-delay: 80ms;
         }
 
-        .meta {
-          animation-delay: 140ms;
+        .buy-slot {
+          animation-delay: 130ms;
+        }
+
+        .contact-slot {
+          animation-delay: 170ms;
         }
 
         @keyframes fadeUp {
@@ -253,35 +257,45 @@
 
       @media (max-width: 640px) {
         :root {
-          --logoW: clamp(150px, 48vw, 220px);
-          --productBox: min(74vw, 360px, 42dvh);
-          --arrowSize: 21px;
-          --stackGap: 10px;
+          --logoW: clamp(220px, 68vw, 405px);
+          --productBox: min(56vw, 330px, 34dvh);
+          --arrowSize: 24px;
+          --arrowGap: clamp(22px, 8vw, 48px);
+          --pagePadTop: clamp(38px, 5.5vh, 54px);
+          --stagePadTop: clamp(80px, 13vh, 130px);
+          --buyGap: clamp(30px, 4.5vh, 46px);
+          --contactGap: clamp(30px, 5vh, 52px);
         }
 
         @supports not (height: 1dvh) {
           :root {
-            --productBox: min(74vw, 360px, 42vh);
+            --productBox: min(56vw, 330px, 34vh);
           }
         }
 
         .carousel {
-          grid-template-columns: 24px var(--productBox) 24px;
-          gap: 14px;
+          grid-template-columns: 26px var(--productBox) 26px;
+        }
+
+        .product-image[data-view="right"],
+        .product-image[data-view="left"],
+        .product-image[data-view="back"] {
+          transform: scale(1.24);
         }
       }
 
       @media (max-height: 720px) {
         :root {
-          --productBox: min(38vw, 360px, 40dvh);
-          --pagePadY: 20px;
-          --stagePadTop: 14px;
-          --stackGap: 9px;
+          --productBox: min(34vw, 380px, 36dvh);
+          --pagePadTop: 20px;
+          --stagePadTop: 22px;
+          --buyGap: 24px;
+          --contactGap: 24px;
         }
 
         @supports not (height: 1dvh) {
           :root {
-            --productBox: min(38vw, 360px, 40vh);
+            --productBox: min(34vw, 380px, 36vh);
           }
         }
 
@@ -290,15 +304,15 @@
         }
       }
 
-      @media (min-width: 1800px) {
+      @media (min-width: 1800px) and (min-height: 900px) {
         :root {
           --logoW: 300px;
-          --productBox: min(38vw, 470px, 46dvh);
+          --productBox: min(36vw, 520px, 46dvh);
         }
 
         @supports not (height: 1dvh) {
           :root {
-            --productBox: min(38vw, 470px, 46vh);
+            --productBox: min(36vw, 520px, 46vh);
           }
         }
       }
@@ -334,6 +348,7 @@
               class="product-image"
               src="Fandomism_Hat_Black_front.png"
               alt="Fandomism black hat, front view"
+              data-view="front"
             />
           </div>
 
@@ -347,17 +362,19 @@
           </button>
         </section>
 
-        <div class="meta-slot">
-          <div class="meta">
-            <a
-              class="buy-link"
-              href="https://square.link/u/H9d5udfB"
-              target="_blank"
-              rel="noopener"
-            >
-              $40<br />Buy
-            </a>
+        <div class="buy-slot">
+          <a
+            class="buy-link"
+            href="https://square.link/u/H9d5udfB"
+            target="_blank"
+            rel="noopener"
+          >
+            $40<br />Buy
+          </a>
+        </div>
 
+        <div class="contact-slot">
+          <div class="contact-block">
             <div class="nod">One of us</div>
 
             <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
@@ -381,19 +398,23 @@
       const productImages = [
         {
           src: "Fandomism_Hat_Black_front.png",
-          alt: "Fandomism black hat, front view"
+          alt: "Fandomism black hat, front view",
+          view: "front"
         },
         {
           src: "Fandomism_Hat_Black_right.PNG",
-          alt: "Fandomism black hat, right side view"
+          alt: "Fandomism black hat, right side view",
+          view: "right"
         },
         {
           src: "Fandomism_Hat_Black_back.PNG",
-          alt: "Fandomism black hat, back view"
+          alt: "Fandomism black hat, back view",
+          view: "back"
         },
         {
           src: "Fandomism_Hat_Black_left.PNG",
-          alt: "Fandomism black hat, left side view"
+          alt: "Fandomism black hat, left side view",
+          view: "left"
         }
       ];
 
@@ -406,14 +427,18 @@
         preload.src = item.src;
       });
 
+      function renderImage(index) {
+        image.src = productImages[index].src;
+        image.alt = productImages[index].alt;
+        image.dataset.view = productImages[index].view;
+      }
+
       function updateCarousel(direction) {
         const offset = direction === "next" ? 1 : -1;
-
         currentIndex =
           (currentIndex + offset + productImages.length) % productImages.length;
 
-        image.src = productImages[currentIndex].src;
-        image.alt = productImages[currentIndex].alt;
+        renderImage(currentIndex);
       }
 
       buttons.forEach((button) => {
