@@ -5,13 +5,8 @@
     <title>Fandomism</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href="https://fandomism.com/" />
-
     <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
-
-    <meta
-      name="description"
-      content="Fandomism explores fandom as culture, identity, and community."
-    />
+    <meta name="description" content="Fandomism explores fandom as culture, identity, and community." />
 
     <style>
       :root {
@@ -21,7 +16,7 @@
         --footerH: 30px;
         --footerPadBottom: 8px;
 
-        --logoW: clamp(170px, 18vw, 285px);
+        --logoW: clamp(165px, 16vw, 285px);
         --logoARw: 10506;
         --logoARh: 3697;
 
@@ -29,21 +24,17 @@
         --arrowSize: 22px;
         --arrowGap: clamp(38px, 8vw, 120px);
 
-        --pagePadTop: clamp(24px, 5vh, 46px);
-        --stagePadTop: clamp(16px, 5vh, 56px);
-        --buyGap: clamp(26px, 4.5vh, 48px);
-        --contactGap: clamp(26px, 5.5vh, 62px);
+        --pagePadTop: clamp(22px, 4.5vh, 44px);
+        --stagePadTop: clamp(12px, 3vh, 36px);
+        --buyGap: clamp(30px, 4.75vh, 52px);
+        --contactGap: clamp(34px, 5.75vh, 68px);
       }
 
       @supports not (height: 1dvh) {
-        :root {
-          --productBox: min(44vw, 500px, 44vh);
-        }
+        :root { --productBox: min(44vw, 500px, 44vh); }
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
       html,
       body {
@@ -88,7 +79,7 @@
         grid-template-rows: auto auto auto;
         align-content: center;
         justify-items: center;
-        padding: var(--stagePadTop) 0 16px;
+        padding: var(--stagePadTop) 0 18px;
       }
 
       .carousel {
@@ -115,14 +106,7 @@
         transition: opacity 0.2s ease;
       }
 
-      .carousel-button:hover {
-        opacity: 0.7;
-      }
-
-      .carousel-button:focus-visible {
-        outline: 1px solid rgba(0, 0, 0, 0.35);
-        outline-offset: 6px;
-      }
+      .carousel-button:hover { opacity: 0.7; }
 
       .product-image-wrap {
         width: var(--productBox);
@@ -141,9 +125,7 @@
         transform-origin: center center;
       }
 
-      .product-image[data-view="front"] {
-        transform: scale(1);
-      }
+      .product-image[data-view="front"] { transform: scale(1); }
 
       .product-image[data-view="right"],
       .product-image[data-view="left"],
@@ -151,13 +133,9 @@
         transform: scale(1.2);
       }
 
-      .buy-slot {
-        margin-top: var(--buyGap);
-      }
+      .buy-slot { margin-top: var(--buyGap); }
 
-      .contact-slot {
-        margin-top: var(--contactGap);
-      }
+      .contact-slot { margin-top: var(--contactGap); }
 
       .contact-block {
         display: flex;
@@ -178,11 +156,6 @@
         letter-spacing: 0.35em;
         text-transform: uppercase;
         opacity: 0.6;
-        transition: opacity 0.25s ease;
-      }
-
-      .nod:hover {
-        opacity: 0.9;
       }
 
       a {
@@ -198,9 +171,7 @@
         padding-bottom: 4px;
       }
 
-      a:hover {
-        opacity: 0.6;
-      }
+      a:hover { opacity: 0.6; }
 
       .site-footer {
         flex: 0 0 auto;
@@ -225,52 +196,32 @@
         overflow: hidden;
       }
 
-      @media (prefers-reduced-motion: no-preference) {
-        .site-logo,
-        .carousel,
-        .buy-slot,
-        .contact-slot {
-          opacity: 0;
-          transform: translateY(6px);
-          animation: fadeUp 500ms ease forwards;
+      @media (max-width: 900px) {
+        :root {
+          --logoW: clamp(175px, 42vw, 270px);
+          --productBox: min(50vw, 420px, 40dvh);
+          --arrowGap: clamp(28px, 7vw, 74px);
         }
 
-        .carousel {
-          animation-delay: 80ms;
-        }
-
-        .buy-slot {
-          animation-delay: 130ms;
-        }
-
-        .contact-slot {
-          animation-delay: 170ms;
-        }
-
-        @keyframes fadeUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        @supports not (height: 1dvh) {
+          :root { --productBox: min(50vw, 420px, 40vh); }
         }
       }
 
       @media (max-width: 640px) {
         :root {
-          --logoW: clamp(220px, 68vw, 405px);
-          --productBox: min(56vw, 330px, 34dvh);
-          --arrowSize: 24px;
-          --arrowGap: clamp(22px, 8vw, 48px);
-          --pagePadTop: clamp(38px, 5.5vh, 54px);
-          --stagePadTop: clamp(80px, 13vh, 130px);
-          --buyGap: clamp(30px, 4.5vh, 46px);
-          --contactGap: clamp(30px, 5vh, 52px);
+          --logoW: clamp(210px, 58vw, 310px);
+          --productBox: min(62vw, 340px, 32dvh);
+          --arrowSize: 25px;
+          --arrowGap: clamp(18px, 5vw, 36px);
+          --pagePadTop: clamp(28px, 4vh, 42px);
+          --stagePadTop: clamp(42px, 7vh, 76px);
+          --buyGap: clamp(34px, 5vh, 54px);
+          --contactGap: clamp(40px, 6vh, 64px);
         }
 
         @supports not (height: 1dvh) {
-          :root {
-            --productBox: min(56vw, 330px, 34vh);
-          }
+          :root { --productBox: min(62vw, 340px, 32vh); }
         }
 
         .carousel {
@@ -286,21 +237,28 @@
 
       @media (max-height: 720px) {
         :root {
+          --logoW: clamp(150px, 14vw, 240px);
           --productBox: min(34vw, 380px, 36dvh);
-          --pagePadTop: 20px;
-          --stagePadTop: 22px;
-          --buyGap: 24px;
-          --contactGap: 24px;
+          --pagePadTop: 18px;
+          --stagePadTop: 18px;
+          --buyGap: 28px;
+          --contactGap: 30px;
         }
 
         @supports not (height: 1dvh) {
-          :root {
-            --productBox: min(34vw, 380px, 36vh);
-          }
+          :root { --productBox: min(34vw, 380px, 36vh); }
         }
 
-        .site-footer {
-          font-size: 10px;
+        .site-footer { font-size: 10px; }
+      }
+
+      @media (max-width: 640px) and (max-height: 780px) {
+        :root {
+          --logoW: clamp(190px, 52vw, 280px);
+          --productBox: min(58vw, 310px, 30dvh);
+          --stagePadTop: clamp(32px, 5vh, 56px);
+          --buyGap: 28px;
+          --contactGap: 34px;
         }
       }
 
@@ -311,9 +269,7 @@
         }
 
         @supports not (height: 1dvh) {
-          :root {
-            --productBox: min(36vw, 520px, 46vh);
-          }
+          :root { --productBox: min(36vw, 520px, 46vh); }
         }
       }
     </style>
@@ -333,14 +289,7 @@
 
       <main class="stage">
         <section class="carousel" aria-label="Fandomism hat carousel">
-          <button
-            class="carousel-button"
-            type="button"
-            data-direction="prev"
-            aria-label="Previous image"
-          >
-            ←
-          </button>
+          <button class="carousel-button" type="button" data-direction="prev" aria-label="Previous image">←</button>
 
           <div class="product-image-wrap">
             <img
@@ -352,23 +301,11 @@
             />
           </div>
 
-          <button
-            class="carousel-button"
-            type="button"
-            data-direction="next"
-            aria-label="Next image"
-          >
-            →
-          </button>
+          <button class="carousel-button" type="button" data-direction="next" aria-label="Next image">→</button>
         </section>
 
         <div class="buy-slot">
-          <a
-            class="buy-link"
-            href="https://square.link/u/H9d5udfB"
-            target="_blank"
-            rel="noopener"
-          >
+          <a class="buy-link" href="https://square.link/u/H9d5udfB" target="_blank" rel="noopener">
             $40<br />Buy
           </a>
         </div>
@@ -376,10 +313,7 @@
         <div class="contact-slot">
           <div class="contact-block">
             <div class="nod">One of us</div>
-
-            <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-              Contact
-            </a>
+            <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
           </div>
         </div>
 
@@ -396,26 +330,10 @@
 
     <script>
       const productImages = [
-        {
-          src: "Fandomism_Hat_Black_front.png",
-          alt: "Fandomism black hat, front view",
-          view: "front"
-        },
-        {
-          src: "Fandomism_Hat_Black_right.PNG",
-          alt: "Fandomism black hat, right side view",
-          view: "right"
-        },
-        {
-          src: "Fandomism_Hat_Black_back.PNG",
-          alt: "Fandomism black hat, back view",
-          view: "back"
-        },
-        {
-          src: "Fandomism_Hat_Black_left.PNG",
-          alt: "Fandomism black hat, left side view",
-          view: "left"
-        }
+        { src: "Fandomism_Hat_Black_front.png", alt: "Fandomism black hat, front view", view: "front" },
+        { src: "Fandomism_Hat_Black_right.PNG", alt: "Fandomism black hat, right side view", view: "right" },
+        { src: "Fandomism_Hat_Black_back.PNG", alt: "Fandomism black hat, back view", view: "back" },
+        { src: "Fandomism_Hat_Black_left.PNG", alt: "Fandomism black hat, left side view", view: "left" }
       ];
 
       const image = document.getElementById("product-image");
@@ -435,21 +353,15 @@
 
       function updateCarousel(direction) {
         const offset = direction === "next" ? 1 : -1;
-        currentIndex =
-          (currentIndex + offset + productImages.length) % productImages.length;
-
+        currentIndex = (currentIndex + offset + productImages.length) % productImages.length;
         renderImage(currentIndex);
       }
 
       buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          updateCarousel(button.dataset.direction);
-        });
+        button.addEventListener("click", () => updateCarousel(button.dataset.direction));
       });
 
-      image.addEventListener("click", () => {
-        updateCarousel("next");
-      });
+      image.addEventListener("click", () => updateCarousel("next"));
 
       document.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") updateCarousel("prev");
