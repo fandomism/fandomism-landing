@@ -33,9 +33,10 @@
         --productBox: min(42vw, 440px, 46dvh);
         --arrowSize: 22px;
 
-        --gap: clamp(10px, 2vh, 22px);
         --pagePadY: clamp(24px, 5vh, 46px);
-        --metaBias: 0px;
+        --stagePadTop: clamp(14px, 4vh, 42px);
+        --stagePadBottom: 14px;
+        --stackGap: 12px;
       }
 
       @supports not (height: 1dvh) {
@@ -44,7 +45,9 @@
         }
       }
 
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
       html,
       body {
@@ -85,11 +88,14 @@
       .stage {
         flex: 1 1 auto;
         min-height: 0;
+
         display: grid;
-        grid-template-rows: 1fr auto;
+        grid-template-rows: auto auto;
         align-content: center;
         justify-items: center;
-        padding: clamp(14px, 4vh, 42px) 0 14px;
+        row-gap: var(--stackGap);
+
+        padding: var(--stagePadTop) 0 var(--stagePadBottom);
       }
 
       .carousel {
@@ -112,11 +118,17 @@
         line-height: 1;
         cursor: pointer;
         padding: 4px;
-        opacity: 0.36;
+        opacity: 0.34;
+        transition: opacity 0.2s ease;
       }
 
       .carousel-button:hover {
         opacity: 0.7;
+      }
+
+      .carousel-button:focus-visible {
+        outline: 1px solid rgba(0, 0, 0, 0.45);
+        outline-offset: 6px;
       }
 
       .product-image-wrap {
@@ -140,15 +152,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top: clamp(12px, 2.6vh, 24px);
+        margin-top: 0;
       }
 
       .meta {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 10px;
-        transform: translateY(var(--metaBias));
+        gap: var(--stackGap);
       }
 
       .buy-link {
@@ -202,8 +213,8 @@
         font-size: 11px;
         letter-spacing: 0.04em;
         color: rgba(0, 0, 0, 0.3);
-        font-family: -apple-system, BlinkMacSystemFont,
-          "Helvetica Neue", Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial,
+          sans-serif;
         pointer-events: none;
       }
 
@@ -224,8 +235,13 @@
           animation: fadeUp 500ms ease forwards;
         }
 
-        .carousel { animation-delay: 80ms; }
-        .meta { animation-delay: 140ms; }
+        .carousel {
+          animation-delay: 80ms;
+        }
+
+        .meta {
+          animation-delay: 140ms;
+        }
 
         @keyframes fadeUp {
           to {
@@ -240,6 +256,7 @@
           --logoW: clamp(150px, 48vw, 220px);
           --productBox: min(74vw, 360px, 42dvh);
           --arrowSize: 21px;
+          --stackGap: 10px;
         }
 
         @supports not (height: 1dvh) {
@@ -258,24 +275,14 @@
         :root {
           --productBox: min(38vw, 360px, 40dvh);
           --pagePadY: 20px;
+          --stagePadTop: 14px;
+          --stackGap: 9px;
         }
 
         @supports not (height: 1dvh) {
           :root {
             --productBox: min(38vw, 360px, 40vh);
           }
-        }
-
-        .stage {
-          padding-top: 14px;
-        }
-
-        .meta-slot {
-          margin-top: 12px;
-        }
-
-        .meta {
-          gap: 8px;
         }
 
         .site-footer {
@@ -401,6 +408,7 @@
 
       function updateCarousel(direction) {
         const offset = direction === "next" ? 1 : -1;
+
         currentIndex =
           (currentIndex + offset + productImages.length) % productImages.length;
 
