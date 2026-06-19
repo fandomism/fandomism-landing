@@ -6,17 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="canonical" href="https://fandomism.com/" />
   <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
-
   <meta name="description" content="Fandomism explores fandom as culture, identity, and community." />
 
   <style>
     :root {
       --bg: #ede6d8;
       --text: #111;
-      --muted: rgba(0, 0, 0, 0.45);
-      --logo-w: clamp(170px, 18vw, 300px);
-      --hat-w: min(72vw, 760px);
-      --hat-h: min(60dvh, 650px);
+      --logo-w: clamp(170px, 18vw, 285px);
+      --hat-w: min(54vw, 560px);
+      --hat-h: min(42dvh, 430px);
     }
 
     * { box-sizing: border-box; }
@@ -29,8 +27,8 @@
     body {
       background: var(--bg);
       color: var(--text);
+      text-align: center;
       overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     .page {
@@ -38,14 +36,12 @@
       height: 100dvh;
       display: grid;
       grid-template-rows: auto 1fr auto;
-      padding: clamp(24px, 5vh, 48px) 24px 0;
-      text-align: center;
+      padding: clamp(28px, 5vh, 46px) 24px 0;
     }
 
     .site-header {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
     }
 
     .site-logo {
@@ -55,21 +51,22 @@
     }
 
     .product {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 1fr auto;
       align-items: center;
-      justify-content: center;
+      justify-items: center;
       min-height: 0;
-      padding-bottom: 16px;
+      padding-top: clamp(18px, 5vh, 58px);
+      padding-bottom: 18px;
     }
 
     .carousel {
       width: 100%;
       display: grid;
-      grid-template-columns: 64px minmax(0, var(--hat-w)) 64px;
+      grid-template-columns: 32px minmax(0, var(--hat-w)) 32px;
       align-items: center;
       justify-content: center;
-      gap: clamp(8px, 2vw, 28px);
+      gap: clamp(22px, 5vw, 82px);
     }
 
     .carousel-button {
@@ -77,14 +74,15 @@
       border: 0;
       background: transparent;
       color: var(--text);
-      font-size: clamp(28px, 4vw, 46px);
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 24px;
       line-height: 1;
       cursor: pointer;
-      padding: 10px;
-      opacity: 0.38;
+      padding: 4px;
+      opacity: 0.36;
     }
 
-    .carousel-button:hover { opacity: 0.75; }
+    .carousel-button:hover { opacity: 0.7; }
 
     .product-image-wrap {
       width: var(--hat-w);
@@ -98,58 +96,55 @@
       max-height: 100%;
       width: auto;
       height: auto;
-      display: block;
       object-fit: contain;
+      display: block;
       cursor: pointer;
       user-select: none;
     }
 
     .product-meta {
-      margin-top: clamp(6px, 1.5vh, 16px);
+      margin-top: clamp(14px, 3vh, 26px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
+      gap: 22px;
     }
 
-    .buy-link,
-    .contact-link {
+    a {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+        Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--text);
       text-decoration: none;
-      text-transform: uppercase;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      line-height: 1.35;
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 4px;
     }
+
+    a:hover { opacity: 0.6; }
 
     .buy-link {
       border-bottom: 0;
+      padding-bottom: 0;
+      line-height: 1.35;
     }
 
     .contact-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
     }
 
     .nod {
       font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
       font-size: 10px;
-      letter-spacing: 0.38em;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--muted);
+      opacity: 0.6;
     }
-
-    .contact-link {
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      border-bottom: 2px solid var(--text);
-      padding-bottom: 4px;
-    }
-
-    a:hover { opacity: 0.6; }
 
     .site-footer {
       min-height: calc(30px + env(safe-area-inset-bottom));
@@ -160,6 +155,7 @@
       font-size: 11px;
       letter-spacing: 0.04em;
       color: rgba(0, 0, 0, 0.3);
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
       pointer-events: none;
     }
 
@@ -174,40 +170,35 @@
     @media (max-width: 640px) {
       :root {
         --logo-w: clamp(150px, 48vw, 220px);
-        --hat-w: min(86vw, 520px);
-        --hat-h: min(52dvh, 520px);
+        --hat-w: min(76vw, 420px);
+        --hat-h: min(38dvh, 360px);
       }
 
       .carousel {
-        grid-template-columns: 36px minmax(0, var(--hat-w)) 36px;
-        gap: 2px;
+        grid-template-columns: 24px minmax(0, var(--hat-w)) 24px;
+        gap: 14px;
       }
 
       .carousel-button {
-        font-size: 28px;
-        padding: 4px;
-      }
-
-      .product-meta {
-        gap: 18px;
+        font-size: 21px;
       }
     }
 
     @media (max-height: 720px) {
       :root {
-        --hat-h: 48dvh;
+        --hat-h: 36dvh;
       }
 
       .page {
-        padding-top: 18px;
+        padding-top: 20px;
+      }
+
+      .product {
+        padding-top: 16px;
       }
 
       .product-meta {
-        gap: 14px;
-      }
-
-      .site-footer {
-        font-size: 10px;
+        gap: 16px;
       }
     }
   </style>
@@ -227,9 +218,7 @@
 
     <main class="product">
       <section class="carousel" aria-label="Fandomism hat carousel">
-        <button class="carousel-button" type="button" data-direction="prev" aria-label="Previous image">
-          ←
-        </button>
+        <button class="carousel-button" type="button" data-direction="prev" aria-label="Previous image">←</button>
 
         <div class="product-image-wrap">
           <img
@@ -240,9 +229,7 @@
           />
         </div>
 
-        <button class="carousel-button" type="button" data-direction="next" aria-label="Next image">
-          →
-        </button>
+        <button class="carousel-button" type="button" data-direction="next" aria-label="Next image">→</button>
       </section>
 
       <section class="product-meta">
@@ -252,9 +239,7 @@
 
         <div class="contact-block">
           <div class="nod">One of us</div>
-          <a class="contact-link" href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-            Contact
-          </a>
+          <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">Contact</a>
         </div>
       </section>
 
@@ -271,22 +256,10 @@
 
   <script>
     const productImages = [
-      {
-        src: "Fandomism_Hat_Black_front.png",
-        alt: "Fandomism black hat, front view"
-      },
-      {
-        src: "Fandomism_Hat_Black_right.PNG",
-        alt: "Fandomism black hat, right side view"
-      },
-      {
-        src: "Fandomism_Hat_Black_back.PNG",
-        alt: "Fandomism black hat, back view"
-      },
-      {
-        src: "Fandomism_Hat_Black_left.PNG",
-        alt: "Fandomism black hat, left side view"
-      }
+      { src: "Fandomism_Hat_Black_front.png", alt: "Fandomism black hat, front view" },
+      { src: "Fandomism_Hat_Black_right.PNG", alt: "Fandomism black hat, right side view" },
+      { src: "Fandomism_Hat_Black_back.PNG", alt: "Fandomism black hat, back view" },
+      { src: "Fandomism_Hat_Black_left.PNG", alt: "Fandomism black hat, left side view" }
     ];
 
     const image = document.getElementById("product-image");
@@ -298,26 +271,18 @@
       preload.src = item.src;
     });
 
-    function renderImage(index) {
-      image.src = productImages[index].src;
-      image.alt = productImages[index].alt;
-    }
-
     function updateCarousel(direction) {
       const offset = direction === "next" ? 1 : -1;
       currentIndex = (currentIndex + offset + productImages.length) % productImages.length;
-      renderImage(currentIndex);
+      image.src = productImages[currentIndex].src;
+      image.alt = productImages[currentIndex].alt;
     }
 
     buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        updateCarousel(button.dataset.direction);
-      });
+      button.addEventListener("click", () => updateCarousel(button.dataset.direction));
     });
 
-    image.addEventListener("click", () => {
-      updateCarousel("next");
-    });
+    image.addEventListener("click", () => updateCarousel("next"));
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowLeft") updateCarousel("prev");
