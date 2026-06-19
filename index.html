@@ -1,255 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Fandomism</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="canonical" href="https://fandomism.com/" />
+<head>
+  <meta charset="UTF-8" />
+  <title>Fandomism</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://fandomism.com/" />
+  <link rel="icon" type="image/png" href="/fandomism-favicon.png" sizes="32x32" />
 
-    <link
-      rel="icon"
-      type="image/png"
-      href="/fandomism-favicon.png"
-      sizes="32x32"
-    />
+  <meta name="description" content="Fandomism explores fandom as culture, identity, and community." />
 
-    <meta
-      name="description"
-      content="Fandomism explores fandom as culture, identity, and community."
-    />
+  <style>
+    :root {
+      --bg: #ede6d8;
+      --text: #111;
+      --muted: rgba(0, 0, 0, 0.45);
+      --logo-w: clamp(170px, 18vw, 300px);
+      --hat-w: min(72vw, 760px);
+      --hat-h: min(60dvh, 650px);
+    }
 
-    <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .page {
+      height: 100vh;
+      height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(24px, 5vh, 48px) 24px 0;
+      text-align: center;
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .site-logo {
+      width: var(--logo-w);
+      height: auto;
+      display: block;
+    }
+
+    .product {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      padding-bottom: 16px;
+    }
+
+    .carousel {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 64px minmax(0, var(--hat-w)) 64px;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 2vw, 28px);
+    }
+
+    .carousel-button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1;
+      cursor: pointer;
+      padding: 10px;
+      opacity: 0.38;
+    }
+
+    .carousel-button:hover { opacity: 0.75; }
+
+    .product-image-wrap {
+      width: var(--hat-w);
+      height: var(--hat-h);
+      display: grid;
+      place-items: center;
+    }
+
+    .product-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .product-meta {
+      margin-top: clamp(6px, 1.5vh, 16px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .buy-link,
+    .contact-link {
+      color: var(--text);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1.35;
+    }
+
+    .buy-link {
+      border-bottom: 0;
+    }
+
+    .contact-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nod {
+      font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
+      font-size: 10px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .contact-link {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 4px;
+    }
+
+    a:hover { opacity: 0.6; }
+
+    .site-footer {
+      min-height: calc(30px + env(safe-area-inset-bottom));
+      padding-bottom: calc(8px + env(safe-area-inset-bottom));
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+    }
+
+    .seo {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
       :root {
-        --bg: #ede6d8;
-        --text: #111;
-
-        /* Footer */
-        --footerH: 30px;
-        --footerPadBottom: 8px;
-
-        /* Logo sizing */
-        --logoMaxW: 1100px;
-        --logoVW: 96vw;
-
-        /* dvh-first viewport handling */
-        --logoMaxH: 62dvh;
-
-        /* Logo aspect ratio */
-        --logoARw: 10506;
-        --logoARh: 3697;
-
-        /* Spacing */
-        --gap: clamp(10px, 2vh, 22px);
-        --pagePadY: clamp(14px, 3vh, 32px);
-
-        /* Bias */
-        --biasTop: clamp(0px, 2vh, 22px);
-        --metaBias: 8px; /* 👈 subtle downward taste tweak */
+        --logo-w: clamp(150px, 48vw, 220px);
+        --hat-w: min(86vw, 520px);
+        --hat-h: min(52dvh, 520px);
       }
 
-      /* dvh fallback */
-      @supports not (height: 1dvh) {
-        :root {
-          --logoMaxH: 62vh;
-        }
+      .carousel {
+        grid-template-columns: 36px minmax(0, var(--hat-w)) 36px;
+        gap: 2px;
       }
 
-      * { box-sizing: border-box; }
+      .carousel-button {
+        font-size: 28px;
+        padding: 4px;
+      }
 
-      html, body { height: 100%; }
+      .product-meta {
+        gap: 18px;
+      }
+    }
 
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--text);
-        text-align: center;
-        overflow: hidden;
+    @media (max-height: 720px) {
+      :root {
+        --hat-h: 48dvh;
       }
 
       .page {
-        height: 100vh;
-        height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        overflow-x: hidden;
+        padding-top: 18px;
       }
 
-      /* GRID-BASED STAGE */
-      .stage {
-        flex: 1 1 auto;
-
-        display: grid;
-        grid-template-rows: 1fr auto 1fr;
-        justify-items: center;
-
-        padding: calc(var(--pagePadY) + var(--biasTop)) 0 var(--pagePadY);
+      .product-meta {
+        gap: 14px;
       }
-
-      .stage img {
-        grid-row: 2;
-
-        width: min(var(--logoVW), var(--logoMaxW));
-        max-height: var(--logoMaxH);
-        height: auto;
-
-        aspect-ratio: calc(var(--logoARw) / var(--logoARh));
-        object-fit: contain;
-        display: block;
-      }
-
-      .meta-slot {
-        grid-row: 3;
-        width: 100%;
-        min-height: max(var(--gap), 72px, 10svh);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .meta {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-
-        transform: translateY(var(--metaBias)); /* 👈 visual-only adjustment */
-      }
-
-      .nod {
-        font-family: Palatino, "Palatino Linotype", "Book Antiqua", serif;
-        font-size: 10px;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        opacity: 0.6;
-        transition: opacity 0.25s ease;
-      }
-
-      .nod:hover { opacity: 0.9; }
-
-      a {
-        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-          Helvetica, Arial, sans-serif;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--text);
-        text-decoration: none;
-        border-bottom: 2px solid var(--text);
-        padding-bottom: 4px;
-      }
-
-      a:hover { opacity: 0.6; }
 
       .site-footer {
-        flex: 0 0 auto;
-
-        min-height: calc(var(--footerH) + env(safe-area-inset-bottom));
-        padding-bottom: calc(
-          var(--footerPadBottom) + env(safe-area-inset-bottom)
-        );
-
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        color: rgba(0, 0, 0, 0.3);
-        font-family: -apple-system, BlinkMacSystemFont,
-          "Helvetica Neue", Arial, sans-serif;
-        pointer-events: none;
+        font-size: 10px;
       }
+    }
+  </style>
+</head>
 
-      .seo {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
+<body>
+  <div class="page">
+    <header class="site-header">
+      <img
+        class="site-logo"
+        src="fandomism-logo.png"
+        alt="Fandomism logo"
+        width="10506"
+        height="3697"
+      />
+    </header>
 
-      /* Motion-safe fade-in */
-      @media (prefers-reduced-motion: no-preference) {
-        .stage img,
-        .meta {
-          opacity: 0;
-          transform: translateY(calc(var(--metaBias) + 6px));
-          animation: fadeUp 500ms ease forwards;
-        }
+    <main class="product">
+      <section class="carousel" aria-label="Fandomism hat carousel">
+        <button class="carousel-button" type="button" data-direction="prev" aria-label="Previous image">
+          ←
+        </button>
 
-        .meta { animation-delay: 120ms; }
-
-        @keyframes fadeUp {
-          to {
-            opacity: 1;
-            transform: translateY(var(--metaBias));
-          }
-        }
-      }
-
-      /* Short-height tuning */
-      @media (max-height: 720px) {
-        :root {
-          --logoMaxH: 58dvh;
-          --gap: clamp(8px, 1.6vh, 16px);
-          --pagePadY: clamp(10px, 2vh, 20px);
-          --biasTop: clamp(0px, 1.5vh, 14px);
-          --metaBias: 6px;
-        }
-
-        @supports not (height: 1dvh) {
-          :root { --logoMaxH: 58vh; }
-        }
-
-        .site-footer { font-size: 10px; }
-      }
-
-      /* Large desktops */
-      @media (min-width: 1800px) {
-        :root {
-          --logoMaxW: 1200px;
-          --logoMaxH: 65dvh;
-          --biasTop: clamp(0px, 2vh, 26px);
-          --metaBias: 10px;
-        }
-
-        @supports not (height: 1dvh) {
-          :root { --logoMaxH: 65vh; }
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="page">
-      <main class="stage">
-        <img
-          src="fandomism-logo.png"
-          alt="Fandomism logo"
-          width="10506"
-          height="3697"
-        />
-
-        <div class="meta-slot">
-          <div class="meta">
-            <div class="nod">One of us</div>
-            <a href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
-              Contact
-            </a>
-          </div>
+        <div class="product-image-wrap">
+          <img
+            id="product-image"
+            class="product-image"
+            src="Fandomism_Hat_Black_front.png"
+            alt="Fandomism black hat, front view"
+          />
         </div>
 
-        <div class="seo">
-          Fandomism is a cultural research and creative platform exploring fandom,
-          identity, community, media, and modern participation.
-        </div>
-      </main>
+        <button class="carousel-button" type="button" data-direction="next" aria-label="Next image">
+          →
+        </button>
+      </section>
 
-      <footer class="site-footer">
-        © 2026 Fandomism LLC. All rights reserved.
-      </footer>
-    </div>
-  </body>
+      <section class="product-meta">
+        <a class="buy-link" href="YOUR_SQUARE_PAYMENT_LINK_HERE" target="_blank" rel="noopener">
+          $40<br />Buy
+        </a>
+
+        <div class="contact-block">
+          <div class="nod">One of us</div>
+          <a class="contact-link" href="mailto:fandomismllc@gmail.com?subject=Fandomism%20Inquiry">
+            Contact
+          </a>
+        </div>
+      </section>
+
+      <div class="seo">
+        Fandomism is a cultural research and creative platform exploring fandom,
+        identity, community, media, and modern participation.
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      © 2026 Fandomism LLC. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const productImages = [
+      {
+        src: "Fandomism_Hat_Black_front.png",
+        alt: "Fandomism black hat, front view"
+      },
+      {
+        src: "Fandomism_Hat_Black_right.PNG",
+        alt: "Fandomism black hat, right side view"
+      },
+      {
+        src: "Fandomism_Hat_Black_back.PNG",
+        alt: "Fandomism black hat, back view"
+      },
+      {
+        src: "Fandomism_Hat_Black_left.PNG",
+        alt: "Fandomism black hat, left side view"
+      }
+    ];
+
+    const image = document.getElementById("product-image");
+    const buttons = document.querySelectorAll(".carousel-button");
+    let currentIndex = 0;
+
+    productImages.forEach((item) => {
+      const preload = new Image();
+      preload.src = item.src;
+    });
+
+    function renderImage(index) {
+      image.src = productImages[index].src;
+      image.alt = productImages[index].alt;
+    }
+
+    function updateCarousel(direction) {
+      const offset = direction === "next" ? 1 : -1;
+      currentIndex = (currentIndex + offset + productImages.length) % productImages.length;
+      renderImage(currentIndex);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        updateCarousel(button.dataset.direction);
+      });
+    });
+
+    image.addEventListener("click", () => {
+      updateCarousel("next");
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") updateCarousel("prev");
+      if (event.key === "ArrowRight") updateCarousel("next");
+    });
+  </script>
+</body>
 </html>
